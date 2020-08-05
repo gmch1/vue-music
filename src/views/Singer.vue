@@ -16,18 +16,46 @@
         :oldVal="alpha"
       ></horizen-item>
     </div>
+    <div class="singer-list-wrapper">
+      <my-scroll class="singer-scroll">
+        <div class="list-item">
+          <div
+            class="singer-item"
+            v-for="(item, index) in singerList"
+            :key="index"
+          >
+            <div class="img-wrapper">
+              <img
+                :src="item.picUrl + '?params=300*300'"
+                width="100%"
+                height="100%"
+                alt="music"
+              />
+            </div>
+            <span class="name">
+              {{ item.name }}
+            </span>
+          </div>
+        </div>
+      </my-scroll>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import { mapState, mapActions } from "vuex";
+// import MyLoading from '../components/my-loading/my-loading';
 import { alphaTypes, categoryTypes } from "../api/config";
 import HorizenItem from "../baseUI/horizen-item/horizen-item";
+import MyScroll from "../components/my-scroll/my-scroll";
 
 export default {
   name: "Home",
   components: {
-    HorizenItem
+    HorizenItem,
+    MyScroll
+    // MyLoading,
   },
   data() {
     return {
@@ -39,14 +67,69 @@ export default {
       alpha: ""
     };
   },
+  computed: {
+    ...mapState("singer", {
+      singerList: state => state.singerList,
+      enterLoading: state => state.enterLoading,
+      pullUpLoading: state => state.pullUpLoading,
+      pullDownLoading: state => state.pullDownLoading,
+      pageCount: state => state.pageCount
+    })
+  },
   methods: {
     handleClick(key, type) {
       if (type == 0) {
         this.category = key;
+        this.updateDispatch(key, this.alpha);
       } else if (type == 1) {
         this.alpha = key;
+        this.updateDispatch(this.category, key);
+      }
+    },
+    ...mapActions("singer", [
+      "getHotSingerList", // -> this.foo()
+      "refreshMoreHotSingerList", // -> this.bar()
+      "getSingerList",
+      "refreshMoreSingerList",
+      "changePageCount",
+      "changeEnterLoading",
+      "changePullDownLoading"
+    ]),
+    _initData() {
+      this.getHotSingerList();
+    },
+    updateDispatch(category, alpha) {
+      // 改变分类，自动跳转第一页
+      this.changePageCount(0);
+      // 开始进行加载动画
+      this.changeEnterLoading(true);
+      // 加载相应内容
+      this.getSingerList({ category, alpha });
+    },
+    // 滑倒最底部更新部分数据（合并）
+    pullUpRefreshDispatch(category, alpha, hot, count) {
+      this.changePullUpLoading(true);
+      this.changePageCount(count + 1);
+      if (hot) {
+        this.refreshMoreHotSingerList();
+      } else {
+        this.refreshMoreSingerList({ category, alpha });
+      }
+    },
+    // 顶部下拉刷新
+    pullDownRefreshDispatch(category, alpha) {
+      this.changePullDownLoading(true);
+      // 重新获取数据
+      this.changePageCount(0);
+      if (category === "" && alpha === "") {
+        this.getHotSingerList();
+      } else {
+        this.getSingerList({ category, alpha });
       }
     }
+  },
+  mounted() {
+    this._initData();
   }
 };
 </script>
@@ -60,6 +143,45 @@ export default {
     width: 100%;
     padding: 5px;
     overflow: hidden;
+  }
+  .singer-list-wrapper {
+    position: fixed;
+    top: 160px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    .singer-scroll {
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+  .list-item {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    overflow: hidden;
+    .singer-item {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      margin: 0 5px;
+      padding: 5px 0;
+      align-items: center;
+      border-bottom: 1px solid rgb(228, 228, 228);
+      .img-wrapper {
+        margin-right: 20px;
+        img {
+          border-radius: 3px;
+          width: 50px;
+          height: 50px;
+        }
+      }
+      .name {
+        font-size: 14px;
+        color: rgb(46, 48, 48);
+        font-weight: 500;
+      }
+    }
   }
 }
 </style>

@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     _getClass(item) {
-      console.log(this.oldVal);
+      // console.log(this.oldVal);
       let target = this.oldVal == item.key;
       let obj = {
         selected: target,
@@ -69,7 +69,7 @@ export default {
       Array.from(tagElems).forEach(ele => {
         totalWidth += ele.offsetWidth;
       });
-      console.log(totalWidth);
+      // console.log(totalWidth);
       cateGoryDOM.style.width = `${totalWidth}px`;
     },
     handleClick(key) {

@@ -11,7 +11,7 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-unused-vars": [
-      2,
+      0,
       {
         // 允许声明未使用变量
         vars: "local",

@@ -21,63 +21,63 @@ export { axiosInstance };
 export const categoryTypes = [
   {
     name: "华语男",
-    key: "1001"
+    key: "1,7"
   },
   {
     name: "华语女",
-    key: "1002"
+    key: "2,7"
   },
   {
     name: "华语组合",
-    key: "1003"
+    key: "3,7"
   },
   {
     name: "欧美男",
-    key: "2001"
+    key: "1,96"
   },
   {
     name: "欧美女",
-    key: "2002"
+    key: "2,96"
   },
   {
     name: "欧美组合",
-    key: "2003"
+    key: "3,96"
   },
   {
     name: "日本男",
-    key: "6001"
+    key: "1,8"
   },
   {
     name: "日本女",
-    key: "6002"
+    key: "2,8"
   },
   {
     name: "日本组合",
-    key: "6003"
+    key: "3,8"
   },
   {
     name: "韩国男",
-    key: "7001"
+    key: "1,16"
   },
   {
     name: "韩国女",
-    key: "7002"
+    key: "2,16"
   },
   {
     name: "韩国组合",
-    key: "7003"
+    key: "3,16"
   },
   {
     name: "其他男歌手",
-    key: "4001"
+    key: "1,0"
   },
   {
     name: "其他女歌手",
-    key: "4002"
+    key: "2,0"
   },
   {
     name: "其他组合",
-    key: "4003"
+    key: "3,0"
   }
 ];
 

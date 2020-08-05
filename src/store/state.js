@@ -1,4 +1,5 @@
 const state = {
+  // recommend moudle
   enterLoading: true,
   bannerList: [],
   recommendList: []
