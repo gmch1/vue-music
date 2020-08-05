@@ -6,6 +6,9 @@ const mutations = {
   },
   [types.CHANGE_RECOMMEND_LIST](state, payload) {
     state.recommendList = payload;
+  },
+  [types.CHANGE_ENTER_LOADING](state) {
+    state.enterLoading = !state.enterLoading;
   }
 };
 

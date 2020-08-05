@@ -9,6 +9,7 @@ export const changeRecommendList = ({ commit }, data) => {
   commit(types.CHANGE_RECOMMEND_LIST, data);
 };
 
+// 获取轮播图数据
 export const getBannerList = ({ dispatch }) => {
   getBannerRequest()
     .then(data => {
@@ -20,10 +21,13 @@ export const getBannerList = ({ dispatch }) => {
     });
 };
 
-export const getRecommendList = ({ dispatch }) => {
+// 获取推荐歌单数据
+export const getRecommendList = ({ commit, dispatch }) => {
   getRecommendListRequest()
     .then(data => {
       dispatch("changeRecommendList", data.result);
+      // 停止加载动画
+      commit(types.CHANGE_ENTER_LOADING);
     })
     .catch(e => {
       console.log(e);

@@ -1,4 +1,5 @@
 const state = {
+  enterLoading: true,
   bannerList: [],
   recommendList: []
 };

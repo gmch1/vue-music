@@ -92,7 +92,8 @@ export default {
         click: this.click,
         scrollX: this.scrollX
       });
-      // console.log(this.scroll)
+
+      console.log(this.scroll);
 
       // 是否派发滚动事件
       if (this.listenScroll) {

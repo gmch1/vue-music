@@ -6,6 +6,7 @@
         <my-list :recommendList="recommendList"></my-list>
       </div>
     </my-scroll>
+    <my-loading v-show="enterLoading"></my-loading>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import { mapActions, mapState } from "vuex";
 import MyTab from "@/components/my-tab/my-tab";
 import MyList from "../components/my-list/my-list";
 import MyScroll from "../components/my-scroll/my-scroll";
+import MyLoading from "../components/my-loading/my-loading";
 
 export default {
   data() {
@@ -28,12 +30,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(["bannerList", "recommendList"])
+    ...mapState(["bannerList", "recommendList", "enterLoading"])
   },
   components: {
     MyTab,
     MyList,
-    MyScroll
+    MyScroll,
+    MyLoading
   },
   mounted() {
     this._initData();
