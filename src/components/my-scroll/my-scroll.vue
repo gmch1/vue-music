@@ -1,13 +1,25 @@
 <template>
   <div class="my-scroll-wrapper" ref="wrapper">
     <slot></slot>
+    <div class="pull-up-loading" v-if="pullUpLoading">
+      <my-loading></my-loading>
+    </div>
+    <div class="pull-down-loading" v-if="pullDownLoading">
+      <my-loading-v2></my-loading-v2>
+    </div>
   </div>
 </template>
 
 <script>
 import BScroll from "better-scroll";
+import MyLoading from "../my-loading/my-loading";
+import MyLoadingV2 from "../my-loadingv2/my-loadingv2";
 
 export default {
+  components: {
+    MyLoading,
+    MyLoadingV2
+  },
   props: {
     /**
      * 1 滚动的时候会派发scroll事件，会截流。
@@ -73,6 +85,14 @@ export default {
     refreshDelay: {
       type: Number,
       default: 20
+    },
+    pullUpLoading: {
+      type: Boolean,
+      default: false
+    },
+    pullDownLoading: {
+      type: Boolean,
+      default: false
     }
   },
   mounted() {
@@ -92,12 +112,13 @@ export default {
         click: this.click,
         scrollX: this.scrollX
       });
-
-      console.log(this.scroll);
+      // 如果不能正常滚动，请修改这里，deubgger
+      // console.log(this.scroll);
 
       // 是否派发滚动事件
       if (this.listenScroll) {
         this.scroll.on("scroll", pos => {
+          // console.log(pos);
           this.$emit("scroll", pos);
         });
       }
@@ -114,7 +135,7 @@ export default {
 
       // 是否派发顶部下拉事件，用于下拉刷新
       if (this.pulldown) {
-        this.scroll.on("touchend", pos => {
+        this.scroll.on("touchEnd", pos => {
           // 下拉动作
           if (pos.y > 50) {
             this.$emit("pulldown");
@@ -161,10 +182,26 @@ export default {
 };
 </script>
 
-<style scoped>
-/* .my-scroll-wrapper {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  } */
+<style scoped lang="scss">
+.my-scroll-wrapper {
+  .pull-up-loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    z-index: 100;
+  }
+  .pull-down-loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0px;
+    height: 30px;
+    margin: auto;
+    z-index: 100;
+  }
+}
 </style>

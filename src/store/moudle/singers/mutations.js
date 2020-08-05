@@ -15,8 +15,8 @@ const mutations = {
   [types.CHANGE_PULLDOWN_LOADING](state, payload) {
     state.pullDownLoading = payload;
   },
-  [types.CHANGE_ENTER_LOADING](state) {
-    state.enterLoading = !state.enterLoading;
+  [types.CHANGE_ENTER_LOADING](state, payload) {
+    state.enterLoading = payload;
   }
 };
 

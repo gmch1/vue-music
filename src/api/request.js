@@ -16,6 +16,7 @@ export const getSingerListRequest = (category, alpha, count) => {
   // /artist/list?type=1&area=96
   // 根据性别、分类来查询，其他字段与先前一致
   let res = category.split(",");
+
   return axiosInstance.get(
     `/artist/list?type=${res[0]}&area=${
       res[1]

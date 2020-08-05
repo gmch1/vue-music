@@ -17,7 +17,16 @@
       ></horizen-item>
     </div>
     <div class="singer-list-wrapper">
-      <my-scroll class="singer-scroll">
+      <my-scroll
+        class="singer-scroll"
+        :data="singerList"
+        :pullUpLoading="pullUpLoading"
+        :pullDownLoading="pullDownLoading"
+        :pulldown="true"
+        :pullup="true"
+        @scrollToEnd="handlePullUp"
+        @pulldown="handlePullDown"
+      >
         <div class="list-item">
           <div
             class="singer-item"
@@ -26,7 +35,7 @@
           >
             <div class="img-wrapper">
               <img
-                :src="item.picUrl + '?params=300*300'"
+                v-lazy="item.picUrl + '?params=300*300'"
                 width="100%"
                 height="100%"
                 alt="music"
@@ -39,13 +48,14 @@
         </div>
       </my-scroll>
     </div>
+    <my-loading v-show="enterLoading"></my-loading>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import { mapState, mapActions } from "vuex";
-// import MyLoading from '../components/my-loading/my-loading';
+import MyLoading from "../components/my-loading/my-loading";
 import { alphaTypes, categoryTypes } from "../api/config";
 import HorizenItem from "../baseUI/horizen-item/horizen-item";
 import MyScroll from "../components/my-scroll/my-scroll";
@@ -54,8 +64,8 @@ export default {
   name: "Home",
   components: {
     HorizenItem,
-    MyScroll
-    // MyLoading,
+    MyScroll,
+    MyLoading
   },
   data() {
     return {
@@ -77,6 +87,20 @@ export default {
     })
   },
   methods: {
+    // 上拉到底部，进行继续加载
+    handlePullUp() {
+      this.pullUpRefreshDispatch(
+        this.category,
+        this.alpha,
+        this.category === "",
+        this.pageCount
+      );
+    },
+    // 下拉刷新
+    handlePullDown() {
+      console.log("refresh 触发");
+      this.pullDownRefreshDispatch(this.category, this.alpha);
+    },
     handleClick(key, type) {
       if (type == 0) {
         this.category = key;
@@ -87,13 +111,14 @@ export default {
       }
     },
     ...mapActions("singer", [
-      "getHotSingerList", // -> this.foo()
-      "refreshMoreHotSingerList", // -> this.bar()
+      "getHotSingerList",
+      "refreshMoreHotSingerList",
       "getSingerList",
       "refreshMoreSingerList",
       "changePageCount",
       "changeEnterLoading",
-      "changePullDownLoading"
+      "changePullDownLoading",
+      "changePullUpLoading"
     ]),
     _initData() {
       this.getHotSingerList();
@@ -108,6 +133,7 @@ export default {
     },
     // 滑倒最底部更新部分数据（合并）
     pullUpRefreshDispatch(category, alpha, hot, count) {
+      // 展示下拉动画
       this.changePullUpLoading(true);
       this.changePageCount(count + 1);
       if (hot) {
