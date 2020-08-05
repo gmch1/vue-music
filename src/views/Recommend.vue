@@ -1,38 +1,53 @@
 <template>
   <div class="home">
-    <my-tab :bannerList="bannerList"></my-tab>
-    <my-list :recommendList="recommendList"></my-list>
+    <my-scroll ref="scroll" class="scroll-wrapper">
+      <div>
+        <my-tab :bannerList="bannerList"></my-tab>
+        <my-list :recommendList="recommendList"></my-list>
+      </div>
+    </my-scroll>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import { mapActions, mapState } from "vuex";
 import MyTab from "@/components/my-tab/my-tab";
 import MyList from "../components/my-list/my-list";
+import MyScroll from "../components/my-scroll/my-scroll";
 
 export default {
   data() {
-    return {
-      bannerList: [1, 2, 3, 4].map(() => {
-        return {
-          imageUrl:
-            "http://p1.music.126.net/ZYLJ2oZn74yUz5x8NBGkVA==/109951164331219056.jpg"
-        };
-      }),
-      recommendList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => {
-        return {
-          id: 1,
-          picUrl:
-            "https://p1.music.126.net/fhmefjUfMD-8qtj3JKeHbA==/18999560928537533.jpg",
-          playCount: 17171122,
-          name: "朴树、许巍、李健、郑钧、老狼、赵雷"
-        };
-      })
-    };
+    return {};
+  },
+  methods: {
+    ...mapActions(["getBannerList", "getRecommendList"]),
+    _initData() {
+      this.getBannerList();
+      this.getRecommendList();
+    }
+  },
+  computed: {
+    ...mapState(["bannerList", "recommendList"])
   },
   components: {
     MyTab,
-    MyList
+    MyList,
+    MyScroll
+  },
+  mounted() {
+    this._initData();
   }
 };
 </script>
+
+<style scoped lang="scss">
+.home {
+  height: calc(100vh - 94px);
+  .scroll-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+</style>

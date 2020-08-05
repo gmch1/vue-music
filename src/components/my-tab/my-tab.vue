@@ -54,9 +54,9 @@ export default {
   background-color: white;
   .before {
     position: absolute;
-    top: 0;
+    top: -300px;
+    height: 400px;
     width: 100%;
-    height: 60%;
     border-radius: 3px;
     background-color: #d44439;
   }
