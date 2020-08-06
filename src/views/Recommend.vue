@@ -24,14 +24,19 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["getBannerList", "getRecommendList"]),
+    ...mapActions("recommend", ["getBannerList", "getRecommendList"]),
+
     _initData() {
       this.getBannerList();
       this.getRecommendList();
     }
   },
   computed: {
-    ...mapState(["bannerList", "recommendList", "enterLoading"])
+    ...mapState("recommend", {
+      bannerList: state => state.bannerList,
+      recommendList: state => state.recommendList,
+      enterLoading: state => state.enterLoading
+    })
   },
   components: {
     MyTab,

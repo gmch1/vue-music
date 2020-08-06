@@ -1,8 +1,3 @@
-const state = {
-  // recommend moudle
-  enterLoading: true,
-  bannerList: [],
-  recommendList: []
-};
+const state = {};
 
 export default state;

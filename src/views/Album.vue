@@ -1,5 +1,9 @@
 <template>
-  <transition appear name="bounce" v-show="showStatus">
+  <transition
+    appear
+    name="bounce"
+    v-if="showStatus && !isEmptyObject(currentAlbum)"
+  >
     <div class="album-wrapper">
       <base-header
         ref="baseheader"
@@ -93,13 +97,16 @@
           </div>
         </div>
       </my-scroll>
+      <my-loading v-if="enterLoading"></my-loading>
     </div>
   </transition>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import BaseHeader from "../baseUI/base-header/base-header";
 import MyScroll from "../components/my-scroll/my-scroll";
+import MyLoading from "../components/my-loading/my-loading";
 import { getName, getCount } from "../api/utils";
 
 const HEADER_HEIGHT = 45;
@@ -112,96 +119,24 @@ export default {
       isMarque: false,
       scroll: true,
       title: "歌单",
-      probeType: 3,
-      currentAlbum: {
-        creator: {
-          avatarUrl:
-            "http://p1.music.126.net/O9zV6jeawR43pfiK2JaVSw==/109951164232128905.jpg",
-          nickname: "浪里推舟"
-        },
-        coverImgUrl:
-          "http://p2.music.126.net/ecpXnH13-0QWpWQmqlR0gw==/109951164354856816.jpg",
-        subscribedCount: 2010711,
-        name: "听完就睡，耳机是天黑以后柔软的梦境",
-        tracks: [
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          },
-          {
-            name: "我真的受伤了",
-            ar: [{ name: "张学友" }, { name: "周华健" }],
-            al: {
-              name: "学友 热"
-            }
-          }
-        ]
-      }
+      // 设置这个是为了不进行节流，同时实时触发事件，避免缓慢滑动导致header未及时更新
+      probeType: 3
     };
+  },
+  computed: {
+    ...mapState("album", {
+      currentAlbum: state => state.currentAlbum,
+      enterLoading: state => state.enterLoading
+    })
   },
 
   methods: {
+    ...mapActions("album", ["getAlbumList"]),
     getCount(e) {
       return getCount(e);
+    },
+    isEmptyObject(obj) {
+      return !obj || Object.keys(obj).length === 0;
     },
     getName(e) {
       return getName(e);
@@ -227,7 +162,13 @@ export default {
         this.isMarque = false;
       }
     },
+    _initData() {
+      const id = this.$route.params.id;
+      this.getAlbumList(id);
+    },
     _initBgImg() {
+      //
+      if (this.isEmptyObject(this.currentAlbum)) return;
       if (!this.flag) {
         this.flag = true;
         // 将css样式简写成一行
@@ -236,19 +177,19 @@ export default {
       /* 等待dom节点渲染完成后触发
       作用 ： 进入某个歌单之后，动态设置背景为歌单用户图片
       scss不支持 js 传参给scss，所以采用动态修改css变量的方式传参，直接修改样式亦可
-      直接修改css变量值，会导致浏览器频繁重绘，性能很差
-      setTimeout(() => {
-      修改一个 Dom 节点上的 CSS 变量
+      setTimeout(() => {       直接修改css变量值，会导致浏览器频繁重绘，性能很差
       this.$refs.topdesc.style.setProperty('--main-bg-color',`url(${this.currentAlbum.coverImgUrl})`url('') );}, 0);*/
     }
   },
   mounted() {
+    this._initData();
     this._initBgImg();
   },
 
   components: {
     BaseHeader,
-    MyScroll
+    MyScroll,
+    MyLoading
   }
 };
 </script>

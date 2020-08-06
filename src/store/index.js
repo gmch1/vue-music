@@ -5,6 +5,8 @@ import * as getters from "./getters";
 import state from "./state";
 import singer from "./moudle/singers/index";
 import rank from "./moudle/rank/index";
+import album from "./moudle/albums/index";
+import recommend from "./moudle/recommend/index";
 import mutations from "./mutations";
 import createLogger from "vuex/dist/logger";
 
@@ -15,7 +17,9 @@ const debug = process.env.NODE_ENV !== "production";
 export default new Vuex.Store({
   modules: {
     singer,
-    rank
+    rank,
+    album,
+    recommend
   },
   actions,
   getters,
