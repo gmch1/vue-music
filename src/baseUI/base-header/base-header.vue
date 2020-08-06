@@ -1,7 +1,10 @@
 <template>
-  <div class="base-header-wrapper">
-    <i class="iconfont back" onClick="handleClick">&#xe655;</i>
-    <h1>{{ title }}</h1>
+  <div class="base-header-wrapper" ref="outer">
+    <i class="iconfont back" @click="handleClickRouter">&#xe655;</i>
+    <h1 v-if="!isMarque">{{ title }}</h1>
+    <div class="marque-wrapper" v-if="isMarque">
+      <h1 ref="text">{{ title }}</h1>
+    </div>
   </div>
 </template>
 
@@ -11,14 +14,43 @@ export default {
     title: {
       type: String,
       default: "标题"
+    },
+    isMarque: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    // 下拉事件触发时，进行滚动字幕初始化
+    isMarque: function(newval, oldval) {
+      if (newval) {
+        this._initMove();
+      }
     }
   },
   data() {
-    return {};
+    return {
+      inter: null
+    };
   },
   methods: {
-    handleClick() {
-      this.$emit("handleClick");
+    handleClickRouter() {
+      this.$emit("handleClickRouter");
+    },
+    _initMove() {
+      // 需要获取最新dom
+      if (this.inter) clearInterval(this.inter);
+      this.$nextTick(() => {
+        const text = this.$refs.text;
+        const outer = this.$refs.outer;
+        const outerWidth = outer.offsetWidth;
+        const textWidth = text.offsetWidth;
+        let w = outerWidth;
+        this.inter = setInterval(() => {
+          w = w + textWidth === 0 ? outerWidth : w - 1;
+          text.style.transform = `translateX(${w}px)`;
+        }, 16);
+      });
     }
   }
 };
@@ -35,7 +67,6 @@ export default {
   display: flex;
   line-height: 40px;
   color: #f1f1f1;
-  background-color: #000;
   .back {
     margin-right: 5px;
     font-size: 20px;
@@ -44,6 +75,12 @@ export default {
   > h1 {
     font-size: 16px;
     font-weight: 700;
+  }
+  .marque-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 32px;
   }
 }
 </style>
