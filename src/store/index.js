@@ -4,6 +4,7 @@ import * as actions from "./actions";
 import * as getters from "./getters";
 import state from "./state";
 import singer from "./moudle/singers/index";
+import rank from "./moudle/rank/index";
 import mutations from "./mutations";
 import createLogger from "vuex/dist/logger";
 
@@ -13,7 +14,8 @@ const debug = process.env.NODE_ENV !== "production";
 
 export default new Vuex.Store({
   modules: {
-    singer
+    singer,
+    rank
   },
   actions,
   getters,

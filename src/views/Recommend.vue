@@ -7,6 +7,7 @@
       </div>
     </my-scroll>
     <my-loading v-show="enterLoading"></my-loading>
+    <router-view></router-view>
   </div>
 </template>
 

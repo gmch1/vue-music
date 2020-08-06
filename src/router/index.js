@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import Home from "../views/Home.vue";
+import Album from "../views/Album.vue";
 import Singer from "../views/Singer.vue";
 import Recommend from "../views/Recommend.vue";
 import Rank from "../views/Rank.vue";
@@ -16,10 +17,10 @@ const routes = [
     path: "/recommend",
     component: Recommend,
     children: [
-      // {
-      //   path: ':id',
-      //   component: Disc
-      // }
+      {
+        path: ":id",
+        component: Album
+      }
     ]
   },
   {
@@ -36,10 +37,10 @@ const routes = [
     path: "/rank",
     component: Rank,
     children: [
-      // {
-      //   path: ':id',
-      //   component: TopList
-      // }
+      {
+        path: ":id",
+        component: Album
+      }
     ]
   }
   // {

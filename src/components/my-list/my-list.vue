@@ -6,6 +6,7 @@
         class="list-item"
         v-for="(item, index) in recommendList"
         :key="index"
+        @click="handleRouterpush(item.id)"
       >
         <div class="img-wrapper">
           <div class="decorate"></div>
@@ -38,6 +39,9 @@ export default {
   methods: {
     getCount(e) {
       return getCount(e);
+    },
+    handleRouterpush(id) {
+      this.$router.push(`${id}`);
     }
   }
 };
