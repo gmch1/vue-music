@@ -1,11 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Home from "../views/Home.vue";
-import Album from "../views/Album.vue";
 import Singer from "../views/Singer.vue";
+import Album from "../views/Album.vue";
+import Singers from "../views/Singers.vue";
 import Recommend from "../views/Recommend.vue";
 import Rank from "../views/Rank.vue";
 
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
 Vue.use(VueRouter);
 
 const routes = [
@@ -14,7 +18,7 @@ const routes = [
     redirect: "/recommend"
   },
   {
-    path: "/recommend",
+    path: "/recommend/",
     component: Recommend,
     children: [
       {
@@ -24,13 +28,13 @@ const routes = [
     ]
   },
   {
-    path: "/singer",
-    component: Singer,
+    path: "/singers/",
+    component: Singers,
     children: [
-      // {
-      //   path: ':id',
-      //   component: SingerDetail
-      // }
+      {
+        path: ":id",
+        component: Singer
+      }
     ]
   },
   {

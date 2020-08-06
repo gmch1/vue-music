@@ -1,4 +1,4 @@
-import * as types from "./action-types";
+import * as types from "./mutation-types";
 
 const mutations = {
   [types.CHANGE_BANNER](state, payload) {

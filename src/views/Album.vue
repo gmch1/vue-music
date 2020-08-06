@@ -143,7 +143,7 @@ export default {
     },
     handleClick() {
       this.showStatus = false;
-      this.$router.push("/recommend");
+      window.history.go(-1);
     },
     handleScroll(pos) {
       let minScrollY = -HEADER_HEIGHT;

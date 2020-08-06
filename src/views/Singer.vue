@@ -1,213 +1,272 @@
 <template>
-  <div class="singer-wrapper">
-    <div class="singer-top">
-      <horizen-item
-        :list="categoryTypes"
-        :title="title1"
-        :type="0"
-        @handleClick="handleClick"
-        :oldVal="category"
-      ></horizen-item>
-      <horizen-item
-        :list="alphaTypes"
-        :title="title2"
-        :type="1"
-        @handleClick="handleClick"
-        :oldVal="alpha"
-      ></horizen-item>
+  <transition appear name="bounce" v-if="showStatus">
+    <div class="singer-wrapper">
+      <div ref="header">
+        <base-header title="头部" @handleClickRouter="handleClick">
+        </base-header>
+      </div>
+
+      <div class="img-wrapper" ref="img-wrapper">
+        <div class="filter"></div>
+      </div>
+      <div class="collect-button" ref="collectButton">
+        <i class="iconfont">&#xe62d;</i>
+        <span class="text">收藏</span>
+      </div>
+      <div class="bg-layer" ref="layer"></div>
+      <div class="song-wrapper" ref="songScrollWrapper">
+        <my-scroll
+          class="song-scroll"
+          ref="myscroll"
+          :listenScroll="listenScroll"
+          @scroll="handleScroll"
+          :probeType="probeType"
+        >
+          <song-list
+            :songs="songsOfArtist"
+            :showBackground="showBackground"
+          ></song-list>
+        </my-scroll>
+      </div>
     </div>
-    <div class="singer-list-wrapper">
-      <my-scroll
-        class="singer-scroll"
-        :data="singerList"
-        :pullUpLoading="pullUpLoading"
-        :pullDownLoading="pullDownLoading"
-        :pulldown="true"
-        :pullup="true"
-        @scrollToEnd="handlePullUp"
-        @pulldown="handlePullDown"
-      >
-        <div class="list-item">
-          <div
-            class="singer-item"
-            v-for="(item, index) in singerList"
-            :key="index"
-          >
-            <div class="img-wrapper">
-              <img
-                v-lazy="item.picUrl + '?params=300*300'"
-                width="100%"
-                height="100%"
-                alt="music"
-              />
-            </div>
-            <span class="name">
-              {{ item.name }}
-            </span>
-          </div>
-        </div>
-      </my-scroll>
-    </div>
-    <my-loading v-show="enterLoading"></my-loading>
-  </div>
+  </transition>
 </template>
 
 <script>
-// @ is an alias to /src
 import { mapState, mapActions } from "vuex";
-import MyLoading from "../components/my-loading/my-loading";
-import { alphaTypes, categoryTypes } from "../api/config";
-import HorizenItem from "../baseUI/horizen-item/horizen-item";
+import BaseHeader from "../baseUI/base-header/base-header";
+import SongList from "./SongList";
 import MyScroll from "../components/my-scroll/my-scroll";
+import { HEADER_HEIGHT } from "../api/config";
+
+// 往上偏移的尺寸，露出圆角
+const OFFSET = 5;
 
 export default {
-  name: "Home",
   components: {
-    HorizenItem,
-    MyScroll,
-    MyLoading
+    BaseHeader,
+    SongList,
+    MyScroll
   },
-  data() {
-    return {
-      categoryTypes: categoryTypes,
-      alphaTypes: alphaTypes,
-      title1: "分类(默认热门):",
-      title2: "首字母:",
-      category: "",
-      alpha: ""
-    };
+  props: {
+    showStatus: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     ...mapState("singer", {
-      singerList: state => state.singerList,
-      enterLoading: state => state.enterLoading,
-      pullUpLoading: state => state.pullUpLoading,
-      pullDownLoading: state => state.pullDownLoading,
-      pageCount: state => state.pageCount
+      artist: state => state.artist,
+      songsOfArtist: state => state.songsOfArtist,
+      loading: state => state.loading
     })
   },
   methods: {
-    // 上拉到底部，进行继续加载
-    handlePullUp() {
-      this.pullUpRefreshDispatch(
-        this.category,
-        this.alpha,
-        this.category === "",
-        this.pageCount
-      );
-    },
-    // 下拉刷新
-    handlePullDown() {
-      console.log("refresh 触发");
-      this.pullDownRefreshDispatch(this.category, this.alpha);
-    },
-    handleClick(key, type) {
-      if (type == 0) {
-        this.category = key;
-        this.updateDispatch(key, this.alpha);
-      } else if (type == 1) {
-        this.alpha = key;
-        this.updateDispatch(this.category, key);
-      }
-    },
-    ...mapActions("singer", [
-      "getHotSingerList",
-      "refreshMoreHotSingerList",
-      "getSingerList",
-      "refreshMoreSingerList",
-      "changePageCount",
-      "changeEnterLoading",
-      "changePullDownLoading",
-      "changePullUpLoading"
-    ]),
+    ...mapActions("singer", ["getSIngerInfo"]),
     _initData() {
-      this.getHotSingerList();
+      const id = this.$route.params.id;
+
+      this.getSIngerInfo(id);
     },
-    updateDispatch(category, alpha) {
-      // 改变分类，自动跳转第一页
-      this.changePageCount(0);
-      // 开始进行加载动画
-      this.changeEnterLoading(true);
-      // 加载相应内容
-      this.getSingerList({ category, alpha });
+    handleClick() {
+      // this.showStatus = false;
+      window.history.go(-1);
     },
-    // 滑倒最底部更新部分数据（合并）
-    pullUpRefreshDispatch(category, alpha, hot, count) {
-      // 展示下拉动画
-      this.changePullUpLoading(true);
-      this.changePageCount(count + 1);
-      if (hot) {
-        this.refreshMoreHotSingerList();
-      } else {
-        this.refreshMoreSingerList({ category, alpha });
+    handleScroll(pos) {
+      const height = this.imgWrapperHeight;
+      const newY = pos.y;
+      const imageDOM = this.$refs["img-wrapper"];
+      const buttonDOM = this.$refs.collectButton;
+      const headerDOM = this.$refs.header;
+      const layerDOM = this.$refs.layer;
+      const songScrollDOM = this.$refs.songScrollWrapper;
+
+      const minSCrollY = -(height - OFFSET) + HEADER_HEIGHT;
+
+      // 滑动距离占图片的百分比
+      const percent = Math.abs(newY / height);
+
+      // 下拉情况处理，图片放大，按钮偏移
+      if (newY > 0) {
+        imageDOM.style["transform"] = `scale(${1 + percent})`;
+        buttonDOM.style["transform"] = `translate3d(0,${newY}px,0`;
+        layerDOM.style.top = `${height - OFFSET + newY}px`;
+      } else if (newY >= minSCrollY) {
+        // 往上滑动，但是遮罩还没有超过header部分
+        layerDOM.style.top = `${height - OFFSET - Math.abs(newY)}px`;
+
+        // 必须同步修改scroll wrapper的top
+        songScrollDOM.style.top = `${height - OFFSET - Math.abs(newY)}px`;
+
+        // 保证遮罩的层叠优先级比图片高，不至于被图片挡住
+        layerDOM.style.zIndex = 1;
+        imageDOM.style.paddingTop = "75%";
+        imageDOM.style.height = 0;
+        imageDOM.style.zIndex = -1;
+        // 按钮跟随移动且逐渐变透明
+        buttonDOM.style["transform"] = `translate3d(0,${newY}px,0)`;
+        buttonDOM.style["opacity"] = `${1 - percent * 2}`;
+      } else if (newY < minSCrollY) {
+        // 往上滑动，但是超过header部分
+        layerDOM.style.top = `${HEADER_HEIGHT - OFFSET}px`;
+        layerDOM.style.zIndex = 1;
+        // 防止溢出歌单内容遮住header
+        headerDOM.style.zIndex = 100;
+        // 此时图片高度与Header一致
+        imageDOM.style.height = `${HEADER_HEIGHT}px`;
+        imageDOM.style.paddingTop = 0;
+        imageDOM.style.zIndex = 99;
       }
     },
-    // 顶部下拉刷新
-    pullDownRefreshDispatch(category, alpha) {
-      this.changePullDownLoading(true);
-      // 重新获取数据
-      this.changePageCount(0);
-      if (category === "" && alpha === "") {
-        this.getHotSingerList();
-      } else {
-        this.getSingerList({ category, alpha });
-      }
+    _initBgImg() {
+      // 不知道vue有没有stylecomponent那样的插件,能够将js变量传给css
+      const parentNode = this.$refs["img-wrapper"];
+      parentNode.style.backgroundImage = `url(${this.artist.picUrl})`;
+      this.imgWrapperHeight = this.$refs["img-wrapper"].offsetHeight;
+    },
+    _initSongListHeight() {
+      this.$refs.songScrollWrapper.style.top = `${this.imgWrapperHeight -
+        OFFSET}px`;
+      this.$refs.layer.style.top = `${this.imgWrapperHeight - OFFSET}px`;
+      this.$refs.myscroll.refresh();
     }
+  },
+  data() {
+    return {
+      listenScroll: true,
+      imgWrapperHeight: null,
+      showBackground: true,
+      // 设置这个是为了不进行节流，同时实时触发事件，避免缓慢滑动导致header未及时更新
+      probeType: 3
+    };
   },
   mounted() {
     this._initData();
+    this._initBgImg();
+    this._initSongListHeight();
   }
 };
 </script>
 
-<style scoped lang="scss">
-.singer-wrapper {
-  .singer-top {
-    box-sizing: border-box;
-    position: fixed;
-    top: 95px;
-    width: 100%;
-    padding: 5px;
-    overflow: hidden;
+<style lang="scss" scoped>
+.bounce-enter-active {
+  animation: bounce-in 0.25s;
+}
+.bounce-leave-active {
+  animation: bounce-out 0.25s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: translate3d(100%, 100%, 0);
   }
-  .singer-list-wrapper {
-    position: fixed;
-    top: 160px;
-    left: 0;
+  50% {
+    /* transform: scale(5.5); */
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  50% {
+  }
+  100% {
+    transform: translate3d(100%, 100%, 0);
+  }
+}
+.singer-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* bottom: ${props => props.play > 0 ? "60px": 0}; */
+  bottom: 0;
+  width: 100vw;
+  z-index: 100;
+  overflow: hidden;
+  background: #f2f3f4;
+  .img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 75%;
+    transform-origin: top;
+    background-size: cover;
+    .filter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(7, 17, 27, 0.3);
+    }
+  }
+  .bg-layer {
+    position: absolute;
+    top: 0;
     bottom: 0;
     width: 100%;
-    .singer-scroll {
-      height: 100%;
-      overflow: hidden;
-    }
+    background: white;
+    border-radius: 10px;
+    z-index: 50;
   }
-  .list-item {
-    display: flex;
+
+  .collect-button {
+    position: absolute;
+    left: 0;
+    right: 0;
     margin: auto;
-    flex-direction: column;
-    overflow: hidden;
-    .singer-item {
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: row;
-      margin: 0 5px;
-      padding: 5px 0;
-      align-items: center;
-      border-bottom: 1px solid rgb(228, 228, 228);
-      .img-wrapper {
-        margin-right: 20px;
-        img {
-          border-radius: 3px;
-          width: 50px;
-          height: 50px;
-        }
-      }
-      .name {
-        font-size: 14px;
-        color: rgb(46, 48, 48);
-        font-weight: 500;
-      }
+    box-sizing: border-box;
+    width: 120px;
+    height: 40px;
+    margin-top: -55px;
+    z-index: 50;
+    background: #d44439;
+    color: #f1f1f1;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 0;
+    line-height: 40px;
+    .iconfont {
+      display: inline-block;
+      margin-right: 10px;
+      font-size: 12px;
+      vertical-align: top;
+    }
+    .text {
+      display: inline-block;
+      font-size: 14px;
+      letter-spacing: 5px;
     }
   }
+
+  .song-wrapper {
+    position: absolute;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* height: 100%; */
+    .song-scroll {
+      overflow: hidden;
+      height: 100%;
+    }
+    > div {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: visible;
+    }
+  }
+}
+.havePlayer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 60px;
 }
 </style>

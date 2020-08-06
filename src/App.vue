@@ -1,10 +1,8 @@
 <template>
   <div id="app">
     <my-header></my-header>
-
-    <keep-alive>
-      <router-view />
-    </keep-alive>
+    <!-- keepalive 会导致路由匹配错误，暂时不使用 -->
+    <router-view />
   </div>
 </template>
 

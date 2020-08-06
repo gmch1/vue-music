@@ -8,6 +8,7 @@
             class="rank-item"
             v-for="(item, index) in officialList"
             :key="index"
+            @click="handleRouterClick(item.id)"
           >
             <div class="img-wrapper">
               <img :src="item.coverImgUrl" alt="" />
@@ -33,6 +34,7 @@
             class="rank-item"
             v-for="(item, index) in globalList"
             :key="index"
+            @click="handleRouterClick(item.id)"
           >
             <div class="img-wrapper img-bigger">
               <img :src="item.coverImgUrl" alt="" />
@@ -77,6 +79,11 @@ export default {
     ...mapActions("rank", ["changeRankList", "changeLoading", "getRankList"]),
     getRankListDataDispatch() {
       this.getRankList();
+    },
+    handleRouterClick(id) {
+      // console.log(id);
+      this.$router.push(`/recommend/${id}`);
+      // console.log(this.$router.history);
     }
   },
   mounted() {

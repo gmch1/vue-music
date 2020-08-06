@@ -15,7 +15,7 @@
       <router-link class="header-router select" to="/recommend"
         >推荐</router-link
       >
-      <router-link class="header-router" to="/singer">歌手</router-link>
+      <router-link class="header-router" to="/singers">歌手</router-link>
       <router-link class="header-router" to="/rank">排行榜</router-link>
     </div>
   </div>

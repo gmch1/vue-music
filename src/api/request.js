@@ -33,3 +33,8 @@ export const getRankListRequest = () => {
 export const getAlbumDetailRequest = id => {
   return axiosInstance.get(`/playlist/detail?id=${id}`);
 };
+
+// 获取歌手主页数据
+export const getSingerInfoRequest = id => {
+  return axiosInstance.get(`/artists?id=${id}`);
+};

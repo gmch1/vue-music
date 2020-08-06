@@ -41,7 +41,7 @@ export default {
       return getCount(e);
     },
     handleRouterpush(id) {
-      this.$router.push(`recommend/${id}`);
+      this.$router.push(`/recommend/${id}`);
     }
   }
 };
