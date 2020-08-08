@@ -5,9 +5,7 @@
         <i class="iconfont">&#xe6e3;</i>
         <span
           >播放全部
-          <span class="sum">
-            共{{ songs.tracks && songs.tracks.length }}首
-          </span>
+          <span class="sum"> 共{{ songs && songs.length }}首 </span>
         </span>
       </div>
       <div v-if="showCollectCount" class="add-list">

@@ -2,7 +2,7 @@
   <transition appear name="bounce" v-if="showStatus">
     <div class="singer-wrapper">
       <div ref="header">
-        <base-header title="头部" @handleClickRouter="handleClick">
+        <base-header :title="artist.name" @handleClickRouter="handleClick">
         </base-header>
       </div>
 
@@ -63,11 +63,6 @@ export default {
   },
   methods: {
     ...mapActions("singer", ["getSIngerInfo"]),
-    _initData() {
-      const id = this.$route.params.id;
-
-      this.getSIngerInfo(id);
-    },
     handleClick() {
       // this.showStatus = false;
       window.history.go(-1);
@@ -117,6 +112,11 @@ export default {
         imageDOM.style.paddingTop = 0;
         imageDOM.style.zIndex = 99;
       }
+    },
+    _initData() {
+      const id = this.$route.params.id;
+      this.getSIngerInfo(id);
+      // console.log(this.artist);
     },
     _initBgImg() {
       // 不知道vue有没有stylecomponent那样的插件,能够将js变量传给css

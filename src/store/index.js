@@ -8,6 +8,7 @@ import rank from "./moudle/rank/index";
 import album from "./moudle/albums/index";
 import recommend from "./moudle/recommend/index";
 import singer from "./moudle/singer/index";
+import player from "./moudle/player/index";
 import mutations from "./mutations";
 import createLogger from "vuex/dist/logger";
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     rank,
     album,
     recommend,
-    singer
+    singer,
+    player
   },
   actions,
   getters,

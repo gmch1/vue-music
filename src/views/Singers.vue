@@ -36,7 +36,7 @@
           >
             <div class="img-wrapper">
               <img
-                v-lazy="item.picUrl + '?params=300*300'"
+                v-lazy="item.picUrl + '?param=300x300'"
                 width="100%"
                 height="100%"
                 alt="music"
