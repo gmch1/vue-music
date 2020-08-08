@@ -9,6 +9,7 @@ import album from "./moudle/albums/index";
 import recommend from "./moudle/recommend/index";
 import singer from "./moudle/singer/index";
 import player from "./moudle/player/index";
+import search from "./moudle/search/index";
 import mutations from "./mutations";
 import createLogger from "vuex/dist/logger";
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
     album,
     recommend,
     singer,
-    player
+    player,
+    search
   },
   actions,
   getters,

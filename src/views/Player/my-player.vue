@@ -1,6 +1,5 @@
 <template>
   <div class="my-player-wrapper" v-if="!isEmptyObject(currentSong)">
-    <!--       v-if="isEmptyObject(currentSong)" -->
     <mini-player
       :fullScreen="fullScreen"
       :playing="playing"
@@ -8,6 +7,7 @@
       :percent="percent"
       @changeFullScreen="changeFullScreen(true)"
       @changePlaying="changePlaying"
+      @togglePlayList="changeShowPlayList(true)"
     ></mini-player>
     <normal-player
       :song="currentSong"
@@ -23,7 +23,13 @@
       @percentChange="percentChange"
       @changePlaying="changePlaying"
       @changeFullScreen="changeFullScreen(false)"
+      @toggle-play-list="changeShowPlayList(true)"
     ></normal-player>
+    <play-list
+      @handle-changemode="changeMode"
+      :showPlayList="showPlayList"
+      @toggle-close-playlist="changeShowPlayList(false)"
+    ></play-list>
     <audio
       ref="audioRef"
       @timeupdate="updateTime"
@@ -35,8 +41,12 @@
 
 <script>
 // 快速切歌这里没有做，如果需要做个节流就可以了
+// 歌词模块未完成
 import MiniPlayer from "./mini-player";
 import NormalPlayer from "./normal-player";
+import { getLyricRequest } from "../../api/request";
+import Lyric from "../../api/lyric-parser";
+
 import {
   getSongUrl,
   isEmptyObject,
@@ -46,12 +56,14 @@ import {
 } from "../../api/utils";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { playMode } from "../../api/config";
+import PlayList from "../../baseUI/play-list/play-list";
 
 export default {
   props: {},
   components: {
     MiniPlayer,
-    NormalPlayer
+    NormalPlayer,
+    PlayList
   },
   computed: {
     ...mapState("player", {
@@ -69,6 +81,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions("player", [
+      "changeCurrentSong",
+      "changeFullScreen",
+      "changePlayingState",
+      "changeSequencePlayList",
+      "changePlayList",
+      "changePlayMode",
+      "changeCurrentIndex",
+      "changeShowPlayList"
+    ]),
     error(e) {
       console.log(e);
     },
@@ -140,16 +162,7 @@ export default {
       this.changePlayingState(true);
       this.$refs.audioRef.play();
     },
-    ...mapActions("player", [
-      "changeCurrentSong",
-      "changeFullScreen",
-      "changePlayingState",
-      "changeSequencePlayList",
-      "changePlayList",
-      "changePlayMode",
-      "changeCurrentIndex",
-      "changeShowPlayList"
-    ]),
+
     percentChange(e) {
       const newTime = e * this.duration;
       this.currentTime = newTime;
@@ -163,6 +176,22 @@ export default {
     },
     updateTime(e) {
       this.currentTime = e.target.currentTime;
+    },
+    getLyric(id) {
+      let lyric = "";
+      getLyricRequest(id)
+        .then(data => {
+          console.log(data);
+          lyric = data.lrc.lyric;
+          if (!lyric) {
+            this.currentLyric.current = null;
+            return;
+          }
+        })
+        .catch(e => {
+          console.log(e);
+          this.$refs.audioRef.play();
+        });
     },
     _initAudio() {
       // console.log(this.currentSong);
@@ -189,6 +218,7 @@ export default {
         return;
       }
       let current = this.playList[this.currentIndex];
+      this.getLyric(current.id);
       this.changeCurrentSong(current);
       this.preSong = current;
       setTimeout(() => {
@@ -225,7 +255,8 @@ export default {
     return {
       currentTime: 0,
       duration: 0,
-      preSong: {}
+      preSong: {},
+      currentLyric: ""
     };
   }
 };

@@ -42,11 +42,11 @@ export default {
       });
     },
     startAnimation(x, y) {
-      console.log(x, y);
+      // console.log(x, y);
       for (let i = 0; i < ICON_NUMBER; i++) {
         let domArray = [...this.$refs.iconsRef.children];
         let item = domArray[i];
-        console.log(item);
+        // console.log(item);
         // 选择空闲元素来开启动画
         if (item.running === false) {
           item.style.left = x + "px";

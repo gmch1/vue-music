@@ -60,7 +60,7 @@
           <div class="icon i-right" @click="$emit('handle-next')">
             <i class="iconfont">&#xe718;</i>
           </div>
-          <div class="icon i-right">
+          <div class="icon i-right" @click="$emit('toggle-play-list')">
             <i class="iconfont">&#xe640;</i>
           </div>
         </div>

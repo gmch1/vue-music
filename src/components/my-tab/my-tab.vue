@@ -64,6 +64,7 @@ export default {
     position: relative;
     width: 98%;
     height: 160px;
+    border-radius: 5px;
     .swipper-item {
       img {
         width: 100%;

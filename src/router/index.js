@@ -5,6 +5,7 @@ import Album from "../views/Album.vue";
 import Singers from "../views/Singers.vue";
 import Recommend from "../views/Recommend.vue";
 import Rank from "../views/Rank.vue";
+import Search from "../views/Search.vue";
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
@@ -46,6 +47,10 @@ const routes = [
         component: Album
       }
     ]
+  },
+  {
+    path: "/search",
+    component: Search
   }
   // {
   //   path: '/search',

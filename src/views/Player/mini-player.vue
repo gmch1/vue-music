@@ -77,7 +77,7 @@ export default {
       }
     },
     handleClick3() {
-      console.log(3);
+      this.$emit("togglePlayList");
     }
   }
 };

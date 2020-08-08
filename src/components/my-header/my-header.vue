@@ -7,7 +7,7 @@
       <div class="content">
         网抑云
       </div>
-      <div class="right">
+      <div class="right" @click="$router.push('search')">
         <i class="iconfont"> &#xe62b;</i>
       </div>
     </div>

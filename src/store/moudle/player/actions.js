@@ -32,3 +32,7 @@ export const changeCurrentIndex = ({ commit }, data) => {
 export const changeShowPlayList = ({ commit }, data) => {
   commit(types.SET_SHOW_PLAYLIST, data);
 };
+
+export const handleDeleteSong = ({ commit }, data) => {
+  commit(types.DELETE_SONG, data);
+};
