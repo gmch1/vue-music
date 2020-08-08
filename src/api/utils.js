@@ -69,7 +69,11 @@ export const formatPlayTime = interval => {
 };
 
 //判断一个对象是否为空对象
-export const isEmptyObject = obj => !obj || Object.keys(obj).length === 0;
+export const isEmptyObject = obj => {
+  let tag = !obj || Object.keys(obj).length === 0;
+  // console.log(tag);
+  return tag;
+};
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);

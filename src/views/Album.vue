@@ -63,41 +63,14 @@
               更多
             </div>
           </div>
-          <div class="song-list">
-            <div class="first-line">
-              <div class="play-all">
-                <i class="iconfont">&#xe6e3;</i>
-                <span
-                  >播放全部
-                  <span class="sum">
-                    共{{ currentAlbum.tracks.length }}首
-                  </span>
-                </span>
-              </div>
-              <div class="add-list">
-                <i class="iconfont">&#xe62d;</i>
-                <span>收藏 {{ getCount(currentAlbum.subscribedCount) }} </span>
-              </div>
-            </div>
-            <ul class="song-item-wrapper">
-              <li
-                class="song-item"
-                v-for="(item, index) in currentAlbum.tracks"
-                :key="index"
-              >
-                <span class="index">
-                  {{ index + 1 }}
-                </span>
-                <div class="info">
-                  <span>{{ item.name }}</span>
-                  <span> {{ getName(item.ar) }} - {{ item.al.name }} </span>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <song-list
+            :songs="currentAlbum.tracks"
+            @musicAnimation="musicAnimation"
+          ></song-list>
         </div>
       </my-scroll>
       <my-loading v-if="enterLoading"></my-loading>
+      <music-note ref="musicNoteRef"></music-note>
     </div>
   </transition>
 </template>
@@ -108,6 +81,8 @@ import BaseHeader from "../baseUI/base-header/base-header";
 import MyScroll from "../components/my-scroll/my-scroll";
 import MyLoading from "../components/my-loading/my-loading";
 import { getName, getCount } from "../api/utils";
+import SongList from "./SongList";
+import MusicNote from "../baseUI/music-note/music-note";
 
 const HEADER_HEIGHT = 45;
 
@@ -134,6 +109,10 @@ export default {
     ...mapActions("album", ["getAlbumList"]),
     getCount(e) {
       return getCount(e);
+    },
+    musicAnimation(x, y) {
+      // console.log(x, y);
+      this.$refs.musicNoteRef.startAnimation(x, y);
     },
     isEmptyObject(obj) {
       return !obj || Object.keys(obj).length === 0;
@@ -189,7 +168,9 @@ export default {
   components: {
     BaseHeader,
     MyScroll,
-    MyLoading
+    MyLoading,
+    SongList,
+    MusicNote
   }
 };
 </script>

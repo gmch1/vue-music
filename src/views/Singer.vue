@@ -5,7 +5,6 @@
         <base-header :title="artist.name" @handleClickRouter="handleClick">
         </base-header>
       </div>
-
       <div class="img-wrapper" ref="img-wrapper">
         <div class="filter"></div>
       </div>
@@ -25,9 +24,11 @@
           <song-list
             :songs="songsOfArtist"
             :showBackground="showBackground"
+            @musicAnimation="musicAnimation"
           ></song-list>
         </my-scroll>
       </div>
+      <music-note ref="musicNoteRef"></music-note>
     </div>
   </transition>
 </template>
@@ -38,6 +39,7 @@ import BaseHeader from "../baseUI/base-header/base-header";
 import SongList from "./SongList";
 import MyScroll from "../components/my-scroll/my-scroll";
 import { HEADER_HEIGHT } from "../api/config";
+import MusicNote from "../baseUI/music-note/music-note";
 
 // 往上偏移的尺寸，露出圆角
 const OFFSET = 5;
@@ -46,7 +48,8 @@ export default {
   components: {
     BaseHeader,
     SongList,
-    MyScroll
+    MyScroll,
+    MusicNote
   },
   props: {
     showStatus: {
@@ -66,6 +69,10 @@ export default {
     handleClick() {
       // this.showStatus = false;
       window.history.go(-1);
+    },
+    musicAnimation(x, y) {
+      // console.log(x, y);
+      this.$refs.musicNoteRef.startAnimation(x, y);
     },
     handleScroll(pos) {
       const height = this.imgWrapperHeight;

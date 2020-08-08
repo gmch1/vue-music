@@ -14,7 +14,12 @@
       </div>
     </div>
     <ul class="song-item-wrapper">
-      <li class="song-item" v-for="(item, index) in songs" :key="index">
+      <li
+        class="song-item"
+        @click="selectItem($event, index, item)"
+        v-for="(item, index) in songs"
+        :key="index"
+      >
         <span class="index">
           {{ index + 1 }}
         </span>
@@ -29,6 +34,7 @@
 
 <script>
 import { getName, getCount } from "../api/utils";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   props: {
@@ -46,11 +52,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions("player", [
+      "changeSequencePlayList",
+      "changePlayList",
+      "changeCurrentIndex"
+    ]),
     getName(e) {
       return getName(e);
     },
     getCount(e) {
       return getCount(e);
+    },
+    selectItem(e, index, song) {
+      this.changePlayList(this.songs);
+      this.changeSequencePlayList(this.songs);
+      this.changeCurrentIndex(index);
+      this.$emit("musicAnimation", e.clientX, e.clientY);
     }
   },
   computed: {
