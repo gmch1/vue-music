@@ -10,8 +10,10 @@
   "dependencies": {
     "axios": "^0.19.2",
     "better-scroll": "^1.15.2",
+    "compression": "^1.7.4",
     "core-js": "^3.6.5",
     "create-keyframe-animation": "^0.1.0",
+    "express": "^4.17.1",
     "fastclick": "^1.0.6",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
