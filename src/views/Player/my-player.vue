@@ -181,7 +181,7 @@ export default {
       let lyric = "";
       getLyricRequest(id)
         .then(data => {
-          console.log(data);
+          // console.log(data);
           lyric = data.lrc.lyric;
           if (!lyric) {
             this.currentLyric.current = null;
@@ -217,6 +217,7 @@ export default {
       ) {
         return;
       }
+      // console.log(666);
       let current = this.playList[this.currentIndex];
       this.getLyric(current.id);
       this.changeCurrentSong(current);
@@ -243,7 +244,9 @@ export default {
     playList(newVal) {
       newVal.length !== 0 && this._watchPlay();
     },
+
     currentIndex() {
+      // console.log(233);
       this._watchPlay();
     }
   },

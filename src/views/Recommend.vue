@@ -20,6 +20,7 @@ import MyScroll from "../components/my-scroll/my-scroll";
 import MyLoading from "../components/my-loading/my-loading";
 
 export default {
+  name: "recommend",
   data() {
     return {};
   },

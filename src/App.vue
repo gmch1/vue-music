@@ -2,7 +2,9 @@
   <div id="app">
     <my-header></my-header>
     <!-- keepalive 会导致路由匹配错误，暂时不使用 -->
-    <router-view />
+    <keep-alive>
+      <router-view />
+    </keep-alive>
     <my-player></my-player>
   </div>
 </template>

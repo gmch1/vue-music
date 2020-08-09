@@ -5,7 +5,7 @@
         <i class="iconfont">&#xe65c;</i>
       </div>
       <div class="content">
-        网抑云
+        云音乐
       </div>
       <div class="right" @click="$router.push('search')">
         <i class="iconfont"> &#xe62b;</i>

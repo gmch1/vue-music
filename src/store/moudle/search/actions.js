@@ -1,4 +1,5 @@
 import * as types from "./mutation-types";
+
 import {
   getHotKeyWordsRequest,
   getSuggestListRequest,
@@ -24,7 +25,7 @@ export const changeEnterLoading = ({ commit }, data) => {
 // 获取关键词列表
 export const getHotKeyWords = ({ dispatch }, data) => {
   getHotKeyWordsRequest().then(data => {
-    let list = data.request.hots;
+    let list = data.result.hots;
     dispatch("changeHotKeyWords", list);
   });
 };
@@ -32,7 +33,7 @@ export const getHotKeyWords = ({ dispatch }, data) => {
 export const getSuggestList = ({ dispatch }, query) => {
   getSuggestListRequest(query).then(data => {
     if (!data) return;
-    let res = data.request || [];
+    let res = data.result || [];
     dispatch("changeSuggestList", res);
   });
   getResultSongsListRequest(query).then(data => {

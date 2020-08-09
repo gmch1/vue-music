@@ -82,7 +82,9 @@ export default {
     },
     handleRouterClick(id) {
       // console.log(id);
-      this.$router.push(`/recommend/${id}`);
+      // this.$router.push(`/recommend/${id}`);
+
+      this.$router.replace({ name: "recommend1", params: { id } });
       // console.log(this.$router.history);
     }
   },

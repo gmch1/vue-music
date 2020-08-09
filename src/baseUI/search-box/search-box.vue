@@ -5,7 +5,7 @@
       ref="queryRef"
       class="box"
       placeholder="搜索歌曲、歌手、专辑"
-      v-model="query"
+      v-model="mquery"
     />
     <i class="iconfont icon-delete" @click="clearQuery" v-show="query"
       >&#xe600;</i
@@ -19,11 +19,15 @@ export default {
     handleQuery: {
       type: String,
       default: ""
+    },
+    query: {
+      type: String,
+      default: ""
     }
   },
   data() {
     return {
-      query: "",
+      mquery: "",
       timer: null,
       newQuery: ""
     };
@@ -32,22 +36,28 @@ export default {
     goback() {
       this.$emit("back");
     },
-    clearQuery() {}
+    clearQuery() {
+      this.mquery = "";
+    }
   },
   watch: {
-    query(newVal, oldVal) {
+    mquery(newVal, oldVal) {
       if (oldVal === newVal) return;
       if (this.timer) {
         clearTimeout(this.timer);
       }
       this.timer = setTimeout(() => {
-        this.$emit("input-change", this.query);
-      }, 700);
+        this.$emit("input-change", this.mquery);
+      }, 500);
     },
-    newQuery(newVal, oldVal) {
-      if (newVal !== this.query) {
-        this.query = newVal;
-      }
+    // newQuery(newVal, oldVal) {
+    //   if (newVal !== this.query) {
+    //     this.query = newVal;
+    //   }
+    // },
+    query(newVal, oldVal) {
+      if (oldVal === newVal) return;
+      this.mquery = this.query;
     }
   },
   mounted() {

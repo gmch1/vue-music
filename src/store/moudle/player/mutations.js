@@ -45,6 +45,47 @@ const mutations = {
     state.playList = playList;
     state.sequencePlayList = sequencePlayList;
     state.currentIndex = currentIndex;
+  },
+  [types.INSERT_SONG](state, song) {
+    const playList = JSON.parse(JSON.stringify(state.playList));
+    const sequencePlayList = JSON.parse(JSON.stringify(state.sequencePlayList));
+    let currentIndex = state.currentIndex;
+    let fpIndex = findIndex(song, playList);
+    // 如果是当前歌曲直接不处理
+    if (fpIndex === currentIndex && currentIndex !== -1) return;
+    // currentIndex++; //0
+    // 把歌放进去，放到当前播放曲目的下一个位置
+    playList.splice(currentIndex, 0, song);
+    // 如果列表中已经存在要添加的歌，暂且称它 oldSong
+    if (fpIndex > -1) {
+      // 如果 oldSong 的索引在目前播放歌曲的索引小，那么删除它，同时当前 index 要减一
+      if (currentIndex > fpIndex) {
+        playList.splice(fpIndex, 1);
+        currentIndex--;
+      } else {
+        // 否则直接删掉 oldSong
+        playList.splice(fpIndex + 1, 1);
+      }
+    }
+    // 同
+    console.log(playList);
+    console.log(currentIndex);
+    let sequenceIndex = findIndex(playList[currentIndex], sequencePlayList) + 1;
+    let fsIndex = findIndex(song, sequencePlayList);
+    // 插入歌曲
+    sequencePlayList.splice(sequenceIndex, 0, song);
+    if (fsIndex > -1) {
+      // 跟上面类似的逻辑。如果在前面就删掉，index--; 如果在后面就直接删除
+      if (sequenceIndex > fsIndex) {
+        sequencePlayList.splice(fsIndex, 1);
+        sequenceIndex--;
+      } else {
+        sequencePlayList.splice(fsIndex + 1, 1);
+      }
+    }
+    state.playList = playList;
+    state.sequencePlayList = sequencePlayList;
+    state.currentIndex = currentIndex;
   }
 };
 

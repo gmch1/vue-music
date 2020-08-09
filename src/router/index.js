@@ -1,12 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Singer from "../views/Singer.vue";
-import Album from "../views/Album.vue";
-import Singers from "../views/Singers.vue";
-import Recommend from "../views/Recommend.vue";
-import Rank from "../views/Rank.vue";
-import Search from "../views/Search.vue";
-
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);
@@ -20,61 +13,52 @@ const routes = [
   },
   {
     path: "/recommend/",
-    component: Recommend,
+    name: "recommend",
+
+    component: () =>
+      import(/* webpackChunkName: "recommend" */ "../views/Recommend.vue"),
     children: [
       {
         path: ":id",
-        component: Album
+        name: "recommend1",
+        component: () =>
+          import(/* webpackChunkName: "album" */ "../views/Album.vue")
       }
     ]
   },
   {
     path: "/singers/",
-    component: Singers,
+    name: "singers",
+    component: () =>
+      import(/* webpackChunkName: "singers" */ "../views/Singers.vue"),
     children: [
       {
         path: ":id",
-        component: Singer
+        name: "singer",
+        component: () =>
+          import(/* webpackChunkName: "singer" */ "../views/Singer.vue")
       }
     ]
   },
   {
     path: "/rank",
-    component: Rank,
+    name: "rank",
+    component: () => import(/* webpackChunkName: "rank" */ "../views/Rank.vue"),
     children: [
       {
         path: ":id",
-        component: Album
+        name: "album",
+        component: () =>
+          import(/* webpackChunkName: "album" */ "../views/Album.vue")
       }
     ]
   },
   {
     path: "/search",
-    component: Search
+    name: "search",
+    component: () =>
+      import(/* webpackChunkName: "search" */ "../views/Search.vue")
   }
-  // {
-  //   path: '/search',
-  //   component: Search,
-  //   children: [
-  //     {
-  //       path: ':id',
-  //       component: SingerDetail
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/user',
-  //   component: UserCenter
-  // }
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
-  // }
 ];
 
 const router = new VueRouter({

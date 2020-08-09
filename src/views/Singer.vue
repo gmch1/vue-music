@@ -45,6 +45,7 @@ import MusicNote from "../baseUI/music-note/music-note";
 const OFFSET = 5;
 
 export default {
+  name: "singer",
   components: {
     BaseHeader,
     SongList,

@@ -37,6 +37,7 @@ import { getName, getCount } from "../api/utils";
 import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
+  name: "songlist",
   props: {
     showBackground: {
       type: Boolean,

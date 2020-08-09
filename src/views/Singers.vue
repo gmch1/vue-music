@@ -63,7 +63,7 @@ import HorizenItem from "../baseUI/horizen-item/horizen-item";
 import MyScroll from "../components/my-scroll/my-scroll";
 
 export default {
-  name: "Home",
+  name: "singers",
   components: {
     HorizenItem,
     MyScroll,

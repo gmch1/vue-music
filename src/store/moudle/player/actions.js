@@ -1,5 +1,5 @@
 import * as types from "./mutation-types";
-// import {} from '../../../api/request';
+import { getSongDetailRequest } from "../../../api/request";
 
 export const changeCurrentSong = ({ commit }, data) => {
   commit(types.SET_CURRENT_SONG, data);
@@ -35,4 +35,15 @@ export const changeShowPlayList = ({ commit }, data) => {
 
 export const handleDeleteSong = ({ commit }, data) => {
   commit(types.DELETE_SONG, data);
+};
+
+export const insertSong = ({ commit }, data) => {
+  commit(types.INSERT_SONG, data);
+};
+
+export const getSongDetail = ({ dispatch }, id) => {
+  getSongDetailRequest(id).then(data => {
+    let song = data.songs[0];
+    dispatch("insertSong", song);
+  });
 };

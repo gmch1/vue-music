@@ -87,6 +87,7 @@ import MusicNote from "../baseUI/music-note/music-note";
 const HEADER_HEIGHT = 45;
 
 export default {
+  name: "album",
   data() {
     return {
       showStatus: true,
