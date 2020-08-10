@@ -20,7 +20,11 @@
       >
         <div>
           <div class="top-desc">
-            <div ref="topdesc" class="background">
+            <div
+              ref="topdesc"
+              class="background"
+              :style="{ background: `url(${this.currentAlbum.coverImgUrl}) ` }"
+            >
               <div class="filter"></div>
             </div>
             <div class="img-wrapper">
@@ -145,25 +149,10 @@ export default {
     _initData() {
       const id = this.$route.params.id;
       this.getAlbumList(id);
-    },
-    _initBgImg() {
-      //
-      if (this.isEmptyObject(this.currentAlbum)) return;
-      if (!this.flag) {
-        this.flag = true;
-        // 将css样式简写成一行
-        this.$refs.topdesc.style.background = `url(${this.currentAlbum.coverImgUrl})  no-repeat scroll 0 0 / 100% 100%`;
-      }
-      /* 等待dom节点渲染完成后触发
-      作用 ： 进入某个歌单之后，动态设置背景为歌单用户图片
-      scss不支持 js 传参给scss，所以采用动态修改css变量的方式传参，直接修改样式亦可
-      setTimeout(() => {       直接修改css变量值，会导致浏览器频繁重绘，性能很差
-      this.$refs.topdesc.style.setProperty('--main-bg-color',`url(${this.currentAlbum.coverImgUrl})`url('') );}, 0);*/
     }
   },
   mounted() {
     this._initData();
-    this._initBgImg();
   },
 
   components: {
@@ -231,11 +220,11 @@ export default {
     position: relative;
     .background {
       z-index: -1;
-      --main-bg-color: brown;
+      /* --main-bg-color: url('http://p2.music.126.net/JUjDw2rQuNE2PF4LfIc9Ag==/109951164207707525.jpg'); */
       /*  通过css定义变量，js再进行相应修改，实现不同歌单，显示不同的界面  
-          不建议这样做，实测，滑动时会导致产生大量重绘
+          不建议这样做，css变量来设置背景图会导致闪烁，batterscroll会加剧这种情况
       */
-      background: var(--main-bg-color) no-repeat;
+      background: brown no-repeat;
       background-position: 0 0;
       background-size: 100% 100%;
       position: absolute;
