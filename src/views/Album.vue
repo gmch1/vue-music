@@ -179,6 +179,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .bounce-enter-active {
   animation: bounce-in 0.25s;
 }
@@ -273,9 +275,9 @@ export default {
         position: absolute;
         right: 2px;
         top: 2px;
-        font-size: 12px;
+        font-size: $font-size-s;
         line-height: 15px;
-        color: #f1f1f1;
+        color: $font-color-light;
         .play {
           vertical-align: top;
         }
@@ -295,10 +297,10 @@ export default {
       padding: 0 10px;
       .title {
         max-height: 70px;
-        color: #f1f1f1;
+        color: $font-color-light;
         font-weight: 700;
         line-height: 1.5;
-        font-size: 16px;
+        font-size: $font-size-l;
       }
       .person {
         display: flex;
@@ -314,8 +316,8 @@ export default {
         }
         .name {
           line-height: 20px;
-          font-size: 14px;
-          color: #bba8a8;
+          font-size: $font-size-m;
+          color: $font-color-desc-v2;
         }
       }
     }
@@ -332,8 +334,8 @@ export default {
       flex-direction: column;
       line-height: 20px;
       text-align: center;
-      font-size: 12px;
-      color: #f1f1f1;
+      font-size: $font-size-s;
+      color: $font-color-light;
       z-index: 1000;
       font-weight: 500;
       .iconfont {
@@ -351,19 +353,19 @@ export default {
       margin-left: 10px;
       position: relative;
       justify-content: space-between;
-      border-bottom: 1px solid #e4e4e4;
+      border-bottom: 1px solid $border-color;
       .play-all {
         display: inline-block;
         line-height: 24px;
-        color: #2e3030;
+        color: $font-color-desc;
         .iconfont {
           font-size: 24px;
           margin-right: 10px;
           vertical-align: top;
         }
         .sum {
-          font-size: 12px;
-          color: #bba8a8;
+          font-size: $font-size-s;
+          color: $font-color-desc-v2;
         }
         > span {
           vertical-align: top;
@@ -379,25 +381,25 @@ export default {
         bottom: 0;
         width: 130px;
         line-height: 34px;
-        background: #d44439;
-        color: #f1f1f1;
+        background: $theme-color;
+        color: $font-color-light;
         font-size: 0;
         border-radius: 3px;
         vertical-align: top;
         .iconfont {
           vertical-align: top;
-          font-size: 10px;
+          font-size: $font-size-ss;
           margin: 0 5px 0 10px;
         }
         span {
-          font-size: 14px;
+          font-size: $font-size-m;
           line-height: 34px;
         }
       }
       .isCollected {
         display: flex;
-        background: #f2f3f4;
-        color: #2e3030;
+        background: $background-color;
+        color: $font-color-desc;
       }
     }
     .song-item-wrapper {
@@ -420,7 +422,7 @@ export default {
           padding: 5px 0;
           flex-direction: column;
           justify-content: space-around;
-          border-bottom: 1px solid #e4e4e4;
+          border-bottom: 1px solid $border-color;
           /* miaxin */
           text-overflow: ellipsis;
           overflow: hidden;
@@ -431,11 +433,11 @@ export default {
             white-space: nowrap;
           }
           > span:first-child {
-            color: #2e3030;
+            color: $font-color-desc;
           }
           > span:last-child {
-            font-size: 12px;
-            color: #bba8a8;
+            font-size: $font-size-s;
+            color: $font-color-desc-v2;
           }
         }
       }

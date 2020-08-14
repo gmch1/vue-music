@@ -86,6 +86,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/style/base.scss";
+
 .horizen-item-wrapper {
   display: flex;
   align-items: center;
@@ -97,12 +99,12 @@ export default {
     padding: 5px 0;
     margin-right: 5px;
     color: grey;
-    font-size: 12px;
-    vertical-align: middle;
+    font-size: $font-size-s;
+    /* vertical-align: middle; */
   }
   .horizen-item {
     flex: 0 0 auto;
-    font-size: 14px;
+    font-size: $font-size-m;
     padding: 5px 8px;
     border-radius: 10px;
     &.selected {

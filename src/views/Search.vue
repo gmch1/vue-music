@@ -133,7 +133,6 @@ export default {
       this.$router.push("singers/" + id);
     },
     play(item) {
-      // console.log(item.id);
       this.getSongDetail(item.id);
     }
   },
@@ -147,6 +146,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .search-wrapper {
   position: fixed;
   top: 0;
@@ -156,7 +157,7 @@ export default {
   width: 100%;
   z-index: 100;
   overflow: hidden;
-  background: #f2f3f4;
+  background: $background-color;
   transform-origin: right bottom;
   &.fly-enter,
   &.fly-leave-to {
@@ -180,17 +181,17 @@ export default {
         .title {
           padding-top: 35px;
           margin-bottom: 20px;
-          font-size: 14px;
-          color: #bba8a8;
+          font-size: $font-size-m;
+          color: $font-color-desc-v2;
         }
         .item {
           display: inline-block;
           padding: 5px 10px;
           margin: 0 20px 10px 0;
           border-radius: 6px;
-          background-color: #fff;
-          font-size: 14px;
-          color: #2e3030;
+          background-color: $highlight-background-color;
+          font-size: $font-size-m;
+          color: $font-color-desc;
         }
       }
     }
@@ -201,8 +202,8 @@ export default {
       overflow: hidden;
       .title {
         margin: 10px 0 10px 10px;
-        color: #bba8a8;
-        font-size: 12px;
+        color: $font-color-desc-v2;
+        font-size: $font-size-s;
       }
       .list-item {
         box-sizing: border-box;
@@ -211,7 +212,7 @@ export default {
         margin: 0 5px;
         padding: 5px 0;
         align-items: center;
-        border-bottom: 1px solid #f2f3f4;
+        border-bottom: 1px solid $background-color;
         .img-wrapper {
           margin-right: 20px;
           img {
@@ -221,8 +222,8 @@ export default {
           }
         }
         .name {
-          font-size: 14px;
-          color: #bba8a8;
+          font-size: $font-size-m;
+          color: $font-color-desc-v2;
           font-weight: 500;
         }
       }
@@ -249,13 +250,13 @@ export default {
           padding: 5px 0;
           flex-direction: column;
           justify-content: space-around;
-          border-bottom: 1px solid #e4e4e4;
+          border-bottom: 1px solid $border-color;
           > span:first-child {
-            color: #2e3030;
+            color: $font-color-desc;
           }
           > span:last-child {
-            font-size: 12px;
-            color: #bba8a8;
+            font-size: $font-size-s;
+            color: $font-color-desc-v2;
           }
         }
       }

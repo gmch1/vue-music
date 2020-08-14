@@ -166,6 +166,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/style/base.scss";
+
 .singer-wrapper {
   .singer-top {
     box-sizing: border-box;
@@ -208,7 +210,7 @@ export default {
         }
       }
       .name {
-        font-size: 14px;
+        font-size: $font-size-m;
         color: rgb(46, 48, 48);
         font-weight: 500;
       }
