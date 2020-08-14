@@ -1,9 +1,5 @@
 <template>
-  <transition
-    appear
-    name="bounce"
-    v-if="showStatus && !isEmptyObject(currentAlbum)"
-  >
+  <transition appear name="bounce" v-if="showStatus">
     <div class="album-wrapper">
       <base-header
         ref="baseheader"
@@ -94,7 +90,7 @@ export default {
   name: "album",
   data() {
     return {
-      showStatus: true,
+      showStatus: false,
       flag: false,
       isMarque: false,
       scroll: true,
@@ -127,7 +123,8 @@ export default {
     },
     handleClick() {
       this.showStatus = false;
-      window.history.go(-1);
+      // console.log(this.$route);
+      window.history.back();
     },
     handleScroll(pos) {
       let minScrollY = -HEADER_HEIGHT;
@@ -148,11 +145,27 @@ export default {
     },
     _initData() {
       const id = this.$route.params.id;
-      this.getAlbumList(id);
+      if (id === this.currentAlbum.id) {
+        // this.showStatus = true;
+      } else {
+        this.getAlbumList(id);
+        // this.showStatus = true;
+      }
     }
   },
-  mounted() {
+  activated() {
     this._initData();
+    // console.log('now ', this.$route);
+  },
+  watch: {
+    currentAlbum(a, b) {
+      const currentId = this.currentAlbum.id.toString();
+      const paramsId = this.$route.params.id.toString();
+
+      if (currentId === paramsId) {
+        this.showStatus = true;
+      }
+    }
   },
 
   components: {
