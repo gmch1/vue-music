@@ -57,6 +57,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .base-header-wrapper {
   position: fixed;
   padding: 5px 10px;
@@ -66,14 +68,14 @@ export default {
   z-index: 100;
   display: flex;
   line-height: 40px;
-  color: #f1f1f1;
+  color: $font-color-light;
   .back {
     margin-right: 5px;
     font-size: 20px;
     width: 20px;
   }
   > h1 {
-    font-size: 16px;
+    font-size: $font-size-l;
     font-weight: 700;
   }
   .marque-wrapper {

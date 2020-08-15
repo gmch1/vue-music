@@ -1,9 +1,5 @@
 <template>
-  <transition
-    appear
-    name="bounce"
-    v-if="showStatus && !isEmptyObject(currentAlbum)"
-  >
+  <transition appear name="bounce" v-if="showStatus">
     <div class="album-wrapper">
       <base-header
         ref="baseheader"
@@ -20,7 +16,11 @@
       >
         <div>
           <div class="top-desc">
-            <div ref="topdesc" class="background">
+            <div
+              ref="topdesc"
+              class="background"
+              :style="{ background: `url(${this.currentAlbum.coverImgUrl}) ` }"
+            >
               <div class="filter"></div>
             </div>
             <div class="img-wrapper">
@@ -90,7 +90,7 @@ export default {
   name: "album",
   data() {
     return {
-      showStatus: true,
+      showStatus: false,
       flag: false,
       isMarque: false,
       scroll: true,
@@ -123,7 +123,8 @@ export default {
     },
     handleClick() {
       this.showStatus = false;
-      window.history.go(-1);
+      // console.log(this.$route);
+      window.history.back();
     },
     handleScroll(pos) {
       let minScrollY = -HEADER_HEIGHT;
@@ -144,26 +145,27 @@ export default {
     },
     _initData() {
       const id = this.$route.params.id;
-      this.getAlbumList(id);
-    },
-    _initBgImg() {
-      //
-      if (this.isEmptyObject(this.currentAlbum)) return;
-      if (!this.flag) {
-        this.flag = true;
-        // 将css样式简写成一行
-        this.$refs.topdesc.style.background = `url(${this.currentAlbum.coverImgUrl})  no-repeat scroll 0 0 / 100% 100%`;
+      if (id === this.currentAlbum.id) {
+        // this.showStatus = true;
+      } else {
+        this.getAlbumList(id);
+        // this.showStatus = true;
       }
-      /* 等待dom节点渲染完成后触发
-      作用 ： 进入某个歌单之后，动态设置背景为歌单用户图片
-      scss不支持 js 传参给scss，所以采用动态修改css变量的方式传参，直接修改样式亦可
-      setTimeout(() => {       直接修改css变量值，会导致浏览器频繁重绘，性能很差
-      this.$refs.topdesc.style.setProperty('--main-bg-color',`url(${this.currentAlbum.coverImgUrl})`url('') );}, 0);*/
     }
   },
-  mounted() {
+  activated() {
     this._initData();
-    this._initBgImg();
+    // console.log('now ', this.$route);
+  },
+  watch: {
+    currentAlbum(a, b) {
+      const currentId = this.currentAlbum.id.toString();
+      const paramsId = this.$route.params.id.toString();
+
+      if (currentId === paramsId) {
+        this.showStatus = true;
+      }
+    }
   },
 
   components: {
@@ -177,6 +179,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .bounce-enter-active {
   animation: bounce-in 0.25s;
 }
@@ -231,11 +235,11 @@ export default {
     position: relative;
     .background {
       z-index: -1;
-      --main-bg-color: brown;
+      /* --main-bg-color: url('http://p2.music.126.net/JUjDw2rQuNE2PF4LfIc9Ag==/109951164207707525.jpg'); */
       /*  通过css定义变量，js再进行相应修改，实现不同歌单，显示不同的界面  
-          不建议这样做，实测，滑动时会导致产生大量重绘
+          不建议这样做，css变量来设置背景图会导致闪烁，batterscroll会加剧这种情况
       */
-      background: var(--main-bg-color) no-repeat;
+      background: brown no-repeat;
       background-position: 0 0;
       background-size: 100% 100%;
       position: absolute;
@@ -271,9 +275,9 @@ export default {
         position: absolute;
         right: 2px;
         top: 2px;
-        font-size: 12px;
+        font-size: $font-size-s;
         line-height: 15px;
-        color: #f1f1f1;
+        color: $font-color-light;
         .play {
           vertical-align: top;
         }
@@ -293,10 +297,10 @@ export default {
       padding: 0 10px;
       .title {
         max-height: 70px;
-        color: #f1f1f1;
+        color: $font-color-light;
         font-weight: 700;
         line-height: 1.5;
-        font-size: 16px;
+        font-size: $font-size-l;
       }
       .person {
         display: flex;
@@ -312,8 +316,8 @@ export default {
         }
         .name {
           line-height: 20px;
-          font-size: 14px;
-          color: #bba8a8;
+          font-size: $font-size-m;
+          color: $font-color-desc-v2;
         }
       }
     }
@@ -330,8 +334,8 @@ export default {
       flex-direction: column;
       line-height: 20px;
       text-align: center;
-      font-size: 12px;
-      color: #f1f1f1;
+      font-size: $font-size-s;
+      color: $font-color-light;
       z-index: 1000;
       font-weight: 500;
       .iconfont {
@@ -349,19 +353,19 @@ export default {
       margin-left: 10px;
       position: relative;
       justify-content: space-between;
-      border-bottom: 1px solid #e4e4e4;
+      border-bottom: 1px solid $border-color;
       .play-all {
         display: inline-block;
         line-height: 24px;
-        color: #2e3030;
+        color: $font-color-desc;
         .iconfont {
           font-size: 24px;
           margin-right: 10px;
           vertical-align: top;
         }
         .sum {
-          font-size: 12px;
-          color: #bba8a8;
+          font-size: $font-size-s;
+          color: $font-color-desc-v2;
         }
         > span {
           vertical-align: top;
@@ -377,25 +381,25 @@ export default {
         bottom: 0;
         width: 130px;
         line-height: 34px;
-        background: #d44439;
-        color: #f1f1f1;
+        background: $theme-color;
+        color: $font-color-light;
         font-size: 0;
         border-radius: 3px;
         vertical-align: top;
         .iconfont {
           vertical-align: top;
-          font-size: 10px;
+          font-size: $font-size-ss;
           margin: 0 5px 0 10px;
         }
         span {
-          font-size: 14px;
+          font-size: $font-size-m;
           line-height: 34px;
         }
       }
       .isCollected {
         display: flex;
-        background: #f2f3f4;
-        color: #2e3030;
+        background: $background-color;
+        color: $font-color-desc;
       }
     }
     .song-item-wrapper {
@@ -418,7 +422,7 @@ export default {
           padding: 5px 0;
           flex-direction: column;
           justify-content: space-around;
-          border-bottom: 1px solid #e4e4e4;
+          border-bottom: 1px solid $border-color;
           /* miaxin */
           text-overflow: ellipsis;
           overflow: hidden;
@@ -429,11 +433,11 @@ export default {
             white-space: nowrap;
           }
           > span:first-child {
-            color: #2e3030;
+            color: $font-color-desc;
           }
           > span:last-child {
-            font-size: 12px;
-            color: #bba8a8;
+            font-size: $font-size-s;
+            color: $font-color-desc-v2;
           }
         }
       }

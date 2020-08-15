@@ -83,6 +83,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .mini-fade-enter-active {
   transition: all 0.12s ease;
 }
@@ -152,16 +154,16 @@ export default {
     overflow: hidden;
     .name {
       margin-bottom: 2px;
-      font-size: 14px;
-      color: #2e3030;
+      font-size: $font-size-m;
+      color: $font-color-desc;
       // miaxin
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
     }
     .desc {
-      font-size: 12px;
-      color: #bba8a8;
+      font-size: $font-size-s;
+      color: $font-color-desc-v2;
       // miaxin
       text-overflow: ellipsis;
       overflow: hidden;
@@ -174,10 +176,10 @@ export default {
     .iconfont,
     .icon-playlist {
       font-size: 25px;
-      color: #d44439;
+      color: $theme-color;
     }
     .icon-mini {
-      font-size: 16px;
+      font-size: $font-size-l;
       position: absolute;
       left: 8px;
       top: 8px;

@@ -68,13 +68,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .music-node-wrapper {
   position: fixed;
   z-index: 1000;
   margin-top: -10px;
   margin-left: -10px;
-  color: #d44439;
-  font-size: 14px;
+  color: $theme-color;
+  font-size: $font-size-m;
   display: none;
   transition: transform 1s;
   transform: translate3d(0, 0, 0);

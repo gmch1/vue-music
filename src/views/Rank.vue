@@ -82,9 +82,9 @@ export default {
     },
     handleRouterClick(id) {
       // console.log(id);
-      // this.$router.push(`/recommend/${id}`);
+      this.$router.push(`/recommend/${id}`);
 
-      this.$router.replace({ name: "recommend1", params: { id } });
+      // this.$router.replace({ name: "recommend1", params: { id } });
       // console.log(this.$router.history);
     }
   },
@@ -95,6 +95,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .rank-wrapper {
   position: fixed;
   top: 90px;
@@ -109,7 +111,7 @@ export default {
     margin: 10px 5px;
     padding-top: 15px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: $font-size-m;
     color: rgb(46, 48, 48);
   }
   .rank-list {
@@ -119,7 +121,7 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
-    background: #f2f3f4;
+    background: $background-color;
     &::after {
       content: "";
       display: block;
@@ -157,7 +159,7 @@ export default {
           position: absolute;
           left: 7px;
           bottom: 7px;
-          font-size: 10px;
+          font-size: $font-size-ss;
           color: rgb(241, 241, 241);
         }
       }
@@ -173,7 +175,7 @@ export default {
         padding: 10px 10px;
 
         .song-item {
-          font-size: 12px;
+          font-size: $font-size-s;
           color: grey;
         }
       }

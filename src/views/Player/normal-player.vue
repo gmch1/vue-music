@@ -212,6 +212,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "@/assets/style/mixin.scss";
+@import "@/assets/style/base.scss";
+
 // 注意，在同时设置keyfream动画和transiation动画时，需要注意动画时长
 .normal-fade-enter-active,
 .normal-fade-leave-active {
@@ -279,7 +282,7 @@ export default {
         display: block;
         padding: 9px;
         font-size: 24px;
-        color: #2e3030;
+        color: $font-color-desc;
         font-weight: bold;
         transform: rotate(90deg);
       }
@@ -289,22 +292,16 @@ export default {
       margin: 0 auto;
       line-height: 40px;
       text-align: center;
-      font-size: 16px;
-      color: #bba8a8;
-      // mixin
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+      font-size: $font-size-l;
+      color: $font-color-desc-v2;
+      @include text-over;
     }
     .subtitle {
       line-height: 20px;
       text-align: center;
-      font-size: 14px;
-      color: #bba8a8;
-      // mixin
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+      font-size: $font-size-m;
+      color: $font-color-desc-v2;
+      @include text-over;
     }
   }
   .middle {
@@ -347,7 +344,7 @@ export default {
       }
       .playing-lyric {
         margin-top: 20px;
-        font-size: 14px;
+        font-size: $font-size-m;
         line-height: 20px;
         white-space: normal;
         text-align: center;
@@ -362,8 +359,8 @@ export default {
     margin: 0px auto;
     padding: 10px 0;
     .time {
-      color: #2e3030;
-      font-size: 12px;
+      color: $font-color-desc;
+      font-size: $font-size-s;
       flex: 0 0 30px;
       line-height: 30px;
       width: 30px;
@@ -388,9 +385,9 @@ export default {
       .icon {
         font-weight: 300;
         flex: 1;
-        color: #2e3030;
+        color: $font-color-desc;
         &.disable {
-          color: rgba(212, 68, 57, 0.5);
+          color: $theme-color-shadow;
         }
         i {
           font-weight: 300;
@@ -411,7 +408,7 @@ export default {
         text-align: left;
       }
       .icon-favorite {
-        color: #d44439;
+        color: $theme-color;
       }
     }
   }

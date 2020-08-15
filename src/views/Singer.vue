@@ -157,6 +157,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/base.scss";
+
 .bounce-enter-active {
   animation: bounce-in 0.25s;
 }
@@ -194,7 +196,7 @@ export default {
   width: 100vw;
   z-index: 100;
   overflow: hidden;
-  background: #f2f3f4;
+  background: $background-color;
   .img-wrapper {
     position: relative;
     width: 100%;
@@ -216,7 +218,7 @@ export default {
     top: 0;
     bottom: 0;
     width: 100%;
-    background: white;
+    background: $highlight-background-color;
     border-radius: 10px;
     z-index: 50;
   }
@@ -231,8 +233,8 @@ export default {
     height: 40px;
     margin-top: -55px;
     z-index: 50;
-    background: #d44439;
-    color: #f1f1f1;
+    background: $theme-color;
+    color: $font-color-light;
     border-radius: 20px;
     text-align: center;
     font-size: 0;
@@ -240,12 +242,12 @@ export default {
     .iconfont {
       display: inline-block;
       margin-right: 10px;
-      font-size: 12px;
+      font-size: $font-size-s;
       vertical-align: top;
     }
     .text {
       display: inline-block;
-      font-size: 14px;
+      font-size: $font-size-m;
       letter-spacing: 5px;
     }
   }

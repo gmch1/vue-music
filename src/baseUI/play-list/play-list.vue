@@ -166,6 +166,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/style/mixin.scss";
+
 .play-list-wrapper {
   &.list-fade-enter,
   &.list-fade-leave-to {
@@ -221,15 +223,16 @@ export default {
       .clear {
         font-size: 16px;
         // mixin
-        position: relative;
+        @include clear;
+        /* position: relative;
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           top: -10px;
           bottom: -10px;
           left: -10px;
           right: -10px;
-        }
+        } */
       }
     }
     .scroll-wrapper {
@@ -250,10 +253,12 @@ export default {
           }
           .text {
             flex: 1;
-            // mixin
+            @include text-over;
+
+            /* // mixin
             text-overflow: ellipsis;
             overflow: hidden;
-            white-space: nowrap;
+            white-space: nowrap; */
 
             font-size: 14px;
             color: #bba8a8;
@@ -262,32 +267,36 @@ export default {
             }
           }
           .like {
+            @include clear;
+
             // mixin
-            position: relative;
+            /* position: relative;
             &:before {
-              content: "";
+              content: '';
               position: absolute;
               top: -10px;
               bottom: -10px;
               left: -10px;
               right: -10px;
-            }
+            } */
 
             margin-right: 15px;
             color: #d44439;
             font-size: 14px;
           }
           .delete {
-            // mixin
+            @include clear;
+
+            /* // mixin
             position: relative;
             &:before {
-              content: "";
+              content: '';
               position: absolute;
               top: -10px;
               bottom: -10px;
               left: -10px;
               right: -10px;
-            }
+            } */
             font-size: 12px;
             color: #d44439;
           }
