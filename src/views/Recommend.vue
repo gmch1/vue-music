@@ -14,7 +14,7 @@
 <script>
 // @ is an alias to /src
 import { mapActions, mapState } from "vuex";
-import MyTab from "@/components/my-tab/my-tab";
+import MyTab from "../components/my-tab/my-tab";
 import MyList from "../components/my-list/my-list";
 import MyScroll from "../components/my-scroll/my-scroll";
 import MyLoading from "../components/my-loading/my-loading";
@@ -54,6 +54,7 @@ export default {
 <style scoped lang="scss">
 .home {
   height: calc(100vh - 94px);
+
   .scroll-wrapper {
     width: 100%;
     height: 100%;

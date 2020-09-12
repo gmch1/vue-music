@@ -12,6 +12,7 @@ import player from "./moudle/player/index";
 import search from "./moudle/search/index";
 import mutations from "./mutations";
 import createLogger from "vuex/dist/logger";
+import user from "./moudle/user/index";
 
 Vue.use(Vuex);
 
@@ -25,7 +26,8 @@ export default new Vuex.Store({
     recommend,
     singer,
     player,
-    search
+    search,
+    user
   },
   actions,
   getters,

@@ -1,5 +1,5 @@
 <template>
-  <div class="my-tab-wrapper">
+  <div class="my-tab-wrapper" @touchmove.stop>
     <div class="before"></div>
     <swiper class="swipper-wrapper" ref="mySwiper" :options="swiperOptions">
       <swiper-slide
@@ -7,7 +7,7 @@
         v-for="(item, index) in bannerList"
         :key="index"
       >
-        <img :src="item.imageUrl" alt="" />
+        <img :src="item.imageUrl" alt />
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>

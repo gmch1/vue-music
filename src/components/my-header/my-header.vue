@@ -2,13 +2,11 @@
   <div class="my-header-wrapper">
     <div class="header-top">
       <div class="left">
-        <i class="iconfont">&#xe65c;</i>
+        <i class="iconfont" @click="handleShowOption">&#xe65c;</i>
       </div>
-      <div class="content">
-        云音乐
-      </div>
+      <div class="content">云音乐</div>
       <div class="right" @click="$router.push('search')">
-        <i class="iconfont"> &#xe62b;</i>
+        <i class="iconfont">&#xe62b;</i>
       </div>
     </div>
     <div class="header-bottom">
@@ -22,7 +20,16 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+
+export default {
+  methods: {
+    ...mapActions("user", ["showOptionState", "closeOptionState"]),
+    handleShowOption() {
+      this.showOptionState();
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">

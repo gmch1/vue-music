@@ -1,3 +1,5 @@
+import state from "../store/moudle/user/state";
+
 export const getCount = count => {
   if (count < 0) return;
   if (count < 10000) {
@@ -98,4 +100,33 @@ export const findIndex = (song, list) => {
   return list.findIndex(item => {
     return song.id === item.id;
   });
+};
+
+export const maxWidth = screen.width;
+
+export const touchmove = (e, start, handleChange, status, flag) => {
+  let newX = e.touches[0].pageX;
+  // 对滑动的距离做一个修正，避免超出实际能够滑出的距离
+  let move = newX - start;
+  // 向右移动，收起浮层
+  if (move > 0) {
+    if (flag === "open") {
+      move = move > maxWidth ? maxWidth : move;
+      // 这里是控制显示的逻辑，如果在这时已经显示了，那就没有必要再触发事件
+      if (status) return;
+      if (Math.abs(move) > maxWidth / 3) {
+        handleChange();
+      }
+    }
+  } else {
+    // 向左移动
+    if (flag === "close") {
+      move = move < -maxWidth ? -maxWidth : move;
+      if (!status) return;
+      // 根据移动的距离，设置元素向左移动的距离，移动1/4距离就可以进行相应切换
+      if (Math.abs(move) > maxWidth / 4) {
+        handleChange();
+      }
+    }
+  }
 };

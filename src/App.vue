@@ -1,6 +1,8 @@
 <template>
-  <div id="app">
+  <div id="app" @touchstart="touchStart" @touchmove="listenTouchMove">
     <my-header></my-header>
+    <my-options></my-options>
+
     <!-- keepalive 会导致路由匹配错误，暂时不使用 -->
     <keep-alive>
       <router-view />
@@ -12,16 +14,48 @@
 <script>
 import MyHeader from "./components/my-header/my-header";
 import MyPlayer from "./views/Player/my-player";
-
+import MyOptions from "./components/my-options/my-options";
+import { touchmove } from "./api/utils";
+import { mapActions, mapState } from "vuex";
 export default {
   components: {
     MyHeader,
-    MyPlayer
+    MyPlayer,
+    MyOptions
+  },
+  data() {
+    return {
+      pos: {
+        start: 0
+      }
+    };
+  },
+  computed: {
+    ...mapState("user", {
+      showOptions: state => state.showOptionState
+    })
+  },
+  methods: {
+    ...mapActions("user", ["showOptionState"]),
+
+    touchStart(e) {
+      this.pos.start = e.touches[0].clientX;
+    },
+    listenTouchMove(e) {
+      let newX = e.touches[0].pageX;
+      // 方法抽离，与全局拖动效果公用
+      touchmove(
+        e,
+        this.pos.start,
+        this.showOptionState,
+        this.showOptions,
+        "open"
+      );
+    }
   }
 };
 </script>
-<style>
-/* #app{
-  height: 100vh;
-} */
+<style lang="scss" scoped>
+#app {
+}
 </style>
