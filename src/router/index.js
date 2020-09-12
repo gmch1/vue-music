@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);
@@ -10,6 +11,17 @@ const routes = [
   {
     path: "/",
     redirect: "/recommend"
+  },
+  {
+    path: "/user",
+    name: "user",
+    component: () => import(/* webpackChunkName: "user" */ "../views/User.vue")
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/Login.vue")
   },
   {
     path: "/recommend/",
