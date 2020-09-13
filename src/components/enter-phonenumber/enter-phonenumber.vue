@@ -28,7 +28,7 @@
 export default {
   data() {
     return {
-      phone: "13572157391",
+      phone: "",
       err: false,
       errorText: ""
     };
