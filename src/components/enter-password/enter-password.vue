@@ -25,7 +25,7 @@
 export default {
   data() {
     return {
-      password: "13572157391"
+      password: ""
     };
   },
   methods: {
