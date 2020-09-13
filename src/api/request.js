@@ -71,3 +71,18 @@ export const userLogin = (phone, password) => {
 export const getUserInfo = uid => {
   return axiosInstance.post(`/user/detail?uid=${uid}`);
 };
+
+// 登录之后获取通知信息
+// 传入lasttime，即可获取下一页数据
+export const getInfo = (count, lasttime = -1) => {
+  return axiosInstance.get(`/event?pagesize=${count}&lasttime=${lasttime}`);
+};
+
+// 获取消息通知
+export const getNotices = () => {
+  return axiosInstance.get("/msg/notices");
+};
+
+export const getPrivateMsg = (count = 10) => {
+  return axiosInstance.get(`/msg/private?limit=${count}`);
+};

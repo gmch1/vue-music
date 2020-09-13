@@ -1,7 +1,7 @@
 <template>
   <div id="app" @touchstart="touchStart" @touchmove="listenTouchMove">
     <my-header></my-header>
-    <my-options v-if="user.code"></my-options>
+    <my-options></my-options>
 
     <!-- keepalive 会导致路由匹配错误，暂时不使用 -->
     <keep-alive>
@@ -15,8 +15,10 @@
 import MyHeader from "./components/my-header/my-header";
 import MyPlayer from "./views/Player/my-player";
 import MyOptions from "./components/my-options/my-options";
-import { touchmove } from "./api/utils";
+import { touchmove, getUserInfo } from "./api/utils";
 import { mapActions, mapState } from "vuex";
+
+import { getPrivateMsg } from "./api/request";
 export default {
   components: {
     MyHeader,
@@ -31,7 +33,10 @@ export default {
     };
   },
   mounted() {
-    this.getUserInfo();
+    getUserInfo(this.userLoginInfo);
+    getPrivateMsg(10).then(res => {
+      console.log(res);
+    });
   },
   computed: {
     ...mapState("user", {
@@ -42,22 +47,6 @@ export default {
   methods: {
     ...mapActions("user", ["showOptionState", "userLoginInfo"]),
 
-    getUserInfo() {
-      try {
-        const uid = localStorage.getItem("uid");
-        if (uid) {
-          this.userLoginInfo(uid);
-        } else {
-          window.addEventListener("setItemEvent", e => {
-            if (e.key === "uid") {
-              this.userLoginInfo(e.key);
-            }
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    },
     touchStart(e) {
       this.pos.start = e.touches[0].clientX;
     },

@@ -1,6 +1,6 @@
 <template>
   <transition name="fly" @after-leave="afterLeave">
-    <div class="search-wrapper" v-show="show">
+    <div class="search-wrapper" v-if="show">
       <!-- <div @click="show = false">返回</div> -->
       <search-box
         @input-change="inputChange"
@@ -49,12 +49,10 @@
                 @click="play(item)"
               >
                 <div class="info">
-                  <span>
-                    {{ item.name }}
-                  </span>
-                  <span>
-                    {{ getName(item.artists) }}- {{ item.album.name }}
-                  </span>
+                  <span>{{ item.name }}</span>
+                  <span
+                    >{{ getName(item.artists) }}- {{ item.album.name }}</span
+                  >
                 </div>
               </li>
             </ul>
@@ -86,7 +84,7 @@ export default {
       query: ""
     };
   },
-  mounted() {
+  activated() {
     this.show = true;
     this.getHotKeyWords();
   },

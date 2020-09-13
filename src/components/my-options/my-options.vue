@@ -14,7 +14,7 @@
         <!-- 音乐包 没有相关接口，所以只是个摆设-->
         <!-- <music-package></music-package> -->
         <!-- 用户模块 -->
-        <user-card :user="user"></user-card>
+        <user-card :user="user" @close="handleCloseOptions"></user-card>
       </div>
     </div>
   </transition>

@@ -1,11 +1,18 @@
 <template>
-  <div class="user-login" @touchstart.stop @touchmove.stop>
+  <div
+    class="user-login"
+    @touchstart.stop="touchStart"
+    @touchmove.stop="touchMove"
+  >
     <img class="logo" src="logo.png" alt />
-    <div class="form-login">
-      <div class="login-button" @click="handleLoginWithPhone">手机号登录</div>
+    <div class="form-login" @touchstart.stop>
+      <!-- 拦截touchstart事件导致click失效，所以使用touchstart事件取代click -->
+      <div class="login-button" @touchstart="handleLoginWithPhone">
+        手机号登录
+      </div>
       <div class="login-button">立即体验</div>
       <!-- 第三方登录 -->
-      <div class="other-options">
+      <div class="other-options" @touchstart.stop>
         <span class="iconfont">&#xe614;</span>
         <span class="iconfont">&#xe6e3;</span>
         <span class="iconfont">&#xe643;</span>
@@ -16,10 +23,34 @@
 </template>
 
 <script>
+import { touchmove } from "../../api/utils";
+
 export default {
+  data() {
+    return {
+      start: 0,
+      flag: true
+    };
+  },
+  activated() {
+    this.flag = true;
+  },
   methods: {
     handleLoginWithPhone() {
+      console.log("click");
       this.$router.push("login");
+    },
+    // 添加这些事件，是为了实现滑动返回页面的目的
+    touchStart(e) {
+      this.start = e.touches[0].clientX;
+    },
+    touchMove(e) {
+      // console.log(e);
+      touchmove(e, this.start, this.conso, this.flag, "goback");
+    },
+    conso() {
+      this.flag = false;
+      this.$router.back();
     }
   }
 };

@@ -5,7 +5,7 @@
         <i class="iconfont" @click="handleShowOption">&#xe65c;</i>
       </div>
       <div class="content">云音乐</div>
-      <div class="right" @click="$router.push('search')">
+      <div class="right" @click="$router.push('/search')">
         <i class="iconfont">&#xe62b;</i>
       </div>
     </div>

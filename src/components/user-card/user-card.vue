@@ -1,7 +1,13 @@
 <template>
   <div class="user-card">
     <div class="card-container">
-      <div class="user-header">
+      <div class="should-login" v-if="!user.code">
+        <span class="desc">手机电脑多端同步，尽享海量高品质音乐</span>
+        <div class="login" @click="handleLogin">
+          <span>立即登录</span>
+        </div>
+      </div>
+      <div class="user-header" v-if="user.code">
         <div class="user">
           <img width="40" height="40" :src="user.profile.avatarUrl" alt />
           <div class="username">{{ user.profile.nickname }}</div>
@@ -59,6 +65,12 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  methods: {
+    handleLogin() {
+      this.$emit("close");
+      this.$router.push("user");
+    }
   }
 };
 </script>
@@ -69,7 +81,40 @@ export default {
   height: 100%;
   .card-container {
     padding: 0 25px;
+    .should-login {
+      height: 80px;
+      width: 100%;
+      padding-top: 10px;
 
+      .desc {
+        display: block;
+        font-size: 10px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        color: #000;
+        font-weight: 100;
+      }
+      .login {
+        font-size: 13px;
+        text-align: center;
+        line-height: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span {
+          display: block;
+          width: 6em;
+          height: 23px;
+          line-height: 23px;
+          border-radius: 15px;
+          background-color: #fe3b39;
+          color: #fff;
+          font-weight: 100;
+        }
+      }
+    }
     .user-header {
       display: flex;
       justify-content: space-between;

@@ -17,6 +17,7 @@ import EnterPassword from "../components/enter-password/enter-password";
 import EnterPhonenumber from "../components/enter-phonenumber/enter-phonenumber";
 import { userLogin, getUserInfo } from "../api/request";
 import { mapActions } from "vuex";
+import { getUserInfo as utillGetUserInfo } from "../api/utils";
 
 export default {
   components: {
@@ -30,9 +31,7 @@ export default {
       password: ""
     };
   },
-  mounted() {
-    // userLoginInfo(uid);
-  },
+  mounted() {},
   methods: {
     ...mapActions("user", ["userLoginInfo"]),
     enterPhone(val) {
@@ -48,6 +47,7 @@ export default {
           document.cookie = res.cookie;
           const uid = res.account.id;
           localStorage.setItem("uid", uid);
+          utillGetUserInfo(this.userLoginInfo, uid);
           this.$router.push("recommend");
           // 最好封装一个提示通知的组件
         });
