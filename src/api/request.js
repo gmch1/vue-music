@@ -58,3 +58,16 @@ export const getResultSongsListRequest = query => {
 export const getSongDetailRequest = id => {
   return axiosInstance.get(`/song/detail?ids=${id}`);
 };
+
+// 登录接口
+
+export const userLogin = (phone, password) => {
+  return axiosInstance.post(
+    `/login/cellphone?phone=${phone}&password=${password} `
+  );
+};
+
+// 登陆后获取用户信息
+export const getUserInfo = uid => {
+  return axiosInstance.post(`/user/detail?uid=${uid}`);
+};

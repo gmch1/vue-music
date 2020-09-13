@@ -6,6 +6,9 @@ const mutations = {
   },
   [types.CLOSE_OPTIONS_STATE](state) {
     state.showOptionState = false;
+  },
+  [types.CHANGE_USER_STATE](state, data) {
+    state.user = data;
   }
 };
 

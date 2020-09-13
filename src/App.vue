@@ -1,7 +1,7 @@
 <template>
   <div id="app" @touchstart="touchStart" @touchmove="listenTouchMove">
     <my-header></my-header>
-    <my-options></my-options>
+    <my-options v-if="user.code"></my-options>
 
     <!-- keepalive 会导致路由匹配错误，暂时不使用 -->
     <keep-alive>
@@ -30,14 +30,34 @@ export default {
       }
     };
   },
+  mounted() {
+    this.getUserInfo();
+  },
   computed: {
     ...mapState("user", {
-      showOptions: state => state.showOptionState
+      showOptions: state => state.showOptionState,
+      user: state => state.user
     })
   },
   methods: {
-    ...mapActions("user", ["showOptionState"]),
+    ...mapActions("user", ["showOptionState", "userLoginInfo"]),
 
+    getUserInfo() {
+      try {
+        const uid = localStorage.getItem("uid");
+        if (uid) {
+          this.userLoginInfo(uid);
+        } else {
+          window.addEventListener("setItemEvent", e => {
+            if (e.key === "uid") {
+              this.userLoginInfo(e.key);
+            }
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
     touchStart(e) {
       this.pos.start = e.touches[0].clientX;
     },

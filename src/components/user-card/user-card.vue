@@ -4,11 +4,11 @@
       <div class="user-header">
         <div class="user">
           <img width="40" height="40" :src="user.profile.avatarUrl" alt />
-          <div class="username">{{ user.profile.signature }}</div>
+          <div class="username">{{ user.profile.nickname }}</div>
         </div>
         <div class="daily-signin">
           <span class="iconfont">&#xe60a;</span>
-          签到
+          <span>签到</span>
         </div>
       </div>
       <div class="user-option">
@@ -96,11 +96,11 @@ export default {
         }
       }
       .daily-signin {
-        width: 70px;
-        height: 25px;
+        width: 55px;
+        height: 20px;
         border-radius: 10px;
         background-color: #fe3b39;
-        line-height: 25px;
+        line-height: 20px;
         text-align: center;
         font-size: 12px;
         color: #ffffff;

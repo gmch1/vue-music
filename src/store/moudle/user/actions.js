@@ -1,5 +1,5 @@
 import * as types from "./mutation-types";
-import { getAlbumDetailRequest } from "../../../api/request";
+import { getAlbumDetailRequest, getUserInfo } from "../../../api/request";
 
 export const showOptionState = ({ commit }) => {
   commit(types.SHOW_OPTIONS_STATE);
@@ -8,4 +8,14 @@ export const showOptionState = ({ commit }) => {
 
 export const closeOptionState = ({ commit }, data) => {
   commit(types.CLOSE_OPTIONS_STATE, data);
+};
+
+export const changeUserState = ({ commit }, data) => {
+  commit(types.CHANGE_USER_STATE, data);
+};
+
+export const userLoginInfo = ({ dispatch }, uid) => {
+  getUserInfo(uid).then(res => {
+    dispatch("changeUserState", res);
+  });
 };

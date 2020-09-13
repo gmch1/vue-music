@@ -1,64 +1,63 @@
 <template>
-  <div class="login-wrapper">
-    <div class="login-header">
-      <div class="left-goback">
-        <span class="iconfont">&#xe602;</span>
-      </div>
-      <span class="phone">手机号登录</span>
-    </div>
-    <div class="login-input-wrapper">
-      <input type="text" class="input-login" placeholder="请输入密码" />
-      <div class="forget-password">忘记密码？</div>
-    </div>
+  <div class="login-wrappper">
+    <enter-phonenumber
+      v-if="flag"
+      @enter-phonenumber="enterPhone"
+    ></enter-phonenumber>
+    <enter-password
+      @goback="goback"
+      v-if="!flag"
+      @enter-password="enterPass"
+    ></enter-password>
   </div>
 </template>
 
 <script>
-export default {};
+import EnterPassword from "../components/enter-password/enter-password";
+import EnterPhonenumber from "../components/enter-phonenumber/enter-phonenumber";
+import { userLogin, getUserInfo } from "../api/request";
+import { mapActions } from "vuex";
+
+export default {
+  components: {
+    EnterPassword,
+    EnterPhonenumber
+  },
+  data() {
+    return {
+      flag: true,
+      phone: "",
+      password: ""
+    };
+  },
+  mounted() {
+    // userLoginInfo(uid);
+  },
+  methods: {
+    ...mapActions("user", ["userLoginInfo"]),
+    enterPhone(val) {
+      this.phone = val;
+      this.flag = false;
+    },
+    enterPass(val) {
+      this.password = val;
+      console.log(this.phone, this.password);
+      if (this.phone && this.password) {
+        userLogin(this.phone, this.password).then(res => {
+          // 设置cookie，通过用户的id来更新store，从而获取用户的信息
+          document.cookie = res.cookie;
+          const uid = res.account.id;
+          localStorage.setItem("uid", uid);
+          this.$router.push("recommend");
+          // 最好封装一个提示通知的组件
+        });
+      }
+    },
+    goback() {
+      this.flag = true;
+    }
+  }
+};
 </script>
 
-<style lang="scss" scoped>
-.login-wrapper {
-  position: fixed;
-  padding: 0 10px;
-
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fff;
-  .login-header {
-    display: flex;
-    height: 50px;
-    line-height: 50px;
-    font-size: 18px;
-    font-weight: 500;
-    .left-goback {
-      margin-right: 25px;
-    }
-  }
-  .login-input-wrapper {
-    position: absolute;
-    /* width: 100vw; */
-
-    top: 70px;
-    .input-login {
-      position: relative;
-      border: none;
-      width: ceil(100vw-5);
-      border-bottom: 1px solid #ccc;
-      font-size: 18px;
-      &:focus {
-        outline: none;
-      }
-    }
-    .forget-password {
-      position: absolute;
-      right: 0;
-      top: 0;
-      font-size: 11px;
-      color: rgb(148, 138, 138);
-    }
-  }
-}
-</style>
+<style></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="user-login">
+  <div class="user-login" @touchstart.stop @touchmove.stop>
     <img class="logo" src="logo.png" alt />
     <div class="form-login">
       <div class="login-button" @click="handleLoginWithPhone">手机号登录</div>

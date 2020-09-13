@@ -8,6 +8,7 @@
 
 <script>
 import UserLogin from "../components/user-login/user-login";
+
 export default {
   components: {
     UserLogin
