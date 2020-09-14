@@ -7,7 +7,10 @@
       </div>
     </my-scroll>
     <my-loading v-show="enterLoading"></my-loading>
-    <router-view></router-view>
+    <!-- 不加这个，钩子函数不执行，后续没结果，子路由router view也需要做一个缓存 -->
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

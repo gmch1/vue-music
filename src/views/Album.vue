@@ -1,13 +1,12 @@
 <template>
-  <transition appear name="bounce" v-if="showStatus">
-    <div class="album-wrapper">
+  <transition appear name="bounce">
+    <div class="album-wrapper" v-if="showStatus">
       <base-header
         ref="baseheader"
         :title="title"
         @handleClickRouter="handleClick"
         :isMarque="isMarque"
-      >
-      </base-header>
+      ></base-header>
       <my-scroll
         class="album-scroll"
         :listenScroll="scroll"
@@ -25,21 +24,22 @@
             </div>
             <div class="img-wrapper">
               <div class="decorate"></div>
-              <img :src="currentAlbum.coverImgUrl" alt="" />
+              <img :src="currentAlbum.coverImgUrl" alt />
               <div class="play-count">
                 <i class="iconfont play">&#xe885;</i>
                 <span class="count"
-                  >{{ Math.floor(currentAlbum.subscribedCount / 1000) / 10 }} 万
-                </span>
+                  >{{
+                    Math.floor(currentAlbum.subscribedCount / 1000) / 10
+                  }}
+                  万</span
+                >
               </div>
             </div>
             <div class="desc-wrapper">
-              <div class="title">
-                {{ currentAlbum.name }}
-              </div>
+              <div class="title">{{ currentAlbum.name }}</div>
               <div class="person">
                 <div class="avatar">
-                  <img :src="currentAlbum.creator.avatarUrl" alt="" />
+                  <img :src="currentAlbum.creator.avatarUrl" alt />
                 </div>
                 <div class="name">{{ currentAlbum.creator.nickname }}</div>
               </div>
@@ -122,6 +122,8 @@ export default {
       return getName(e);
     },
     handleClick() {
+      // 关闭弹出浮层
+      // console.log("close");
       this.showStatus = false;
       // console.log(this.$route);
       window.history.back();
@@ -145,24 +147,33 @@ export default {
     },
     _initData() {
       const id = this.$route.params.id;
+      // console.log(id);
       if (id === this.currentAlbum.id) {
-        // this.showStatus = true;
+        this.showStatus = true;
       } else {
         this.getAlbumList(id);
-        // this.showStatus = true;
+        // 这一步派发action，即可获取相关数据，当watch监听到之后，动态修改即可
+        // console.log("逻辑判断不成立，id不相等");
       }
     }
   },
+  mounted() {
+    // console.log("album组件挂载成功");
+    // this._initData();
+  },
   activated() {
+    // console.log("组件actived钩子触发");
     this._initData();
     // console.log('now ', this.$route);
   },
   watch: {
     currentAlbum(a, b) {
+      // console.log("watch ");
       const currentId = this.currentAlbum.id.toString();
       const paramsId = this.$route.params.id.toString();
 
       if (currentId === paramsId) {
+        // console.log("watch 判断逻辑触发");
         this.showStatus = true;
       }
     }

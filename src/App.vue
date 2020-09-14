@@ -3,7 +3,7 @@
     <my-header></my-header>
     <my-options></my-options>
 
-    <!-- keepalive 会导致路由匹配错误，暂时不使用 -->
+    <!-- 需要注意keepalive导致生命周期钩子函数发生的变化 -->
     <keep-alive>
       <router-view />
     </keep-alive>
