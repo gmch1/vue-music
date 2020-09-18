@@ -10,6 +10,7 @@
       @togglePlayList="changeShowPlayList(true)"
     ></mini-player>
     <normal-player
+      :lines="lrc.lines"
       :song="currentSong"
       :fullScreen="fullScreen"
       :playing="playing"
@@ -56,6 +57,8 @@ import {
 } from "../../api/utils";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { playMode } from "../../api/config";
+// import { parseLRC } from "../../api/utils";
+import LynicParser from "../../api/lyric-parser";
 import PlayList from "../../baseUI/play-list/play-list";
 
 export default {
@@ -181,14 +184,16 @@ export default {
       let lyric = "";
       getLyricRequest(id)
         .then(data => {
-          // console.log(data);
           lyric = data.lrc.lyric;
+          this.lrc = new LynicParser(lyric);
           if (!lyric) {
-            this.currentLyric.current = null;
-            return;
+            this.currentLyric = null;
+            throw new Error("歌词数据获取失败");
+            // return;
           }
         })
         .catch(e => {
+          console.log("纯音乐，无歌词");
           console.log(e);
           this.$refs.audioRef.play();
         });
@@ -259,7 +264,8 @@ export default {
       currentTime: 0,
       duration: 0,
       preSong: {},
-      currentLyric: ""
+      currentLyric: "",
+      lrc: []
     };
   }
 };

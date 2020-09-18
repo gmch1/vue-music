@@ -112,6 +112,7 @@ export default {
         click: this.click,
         scrollX: this.scrollX
       });
+
       // 如果不能正常滚动，请修改这里，deubgger
       // console.log(this.scroll);
 
