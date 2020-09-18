@@ -138,9 +138,9 @@ export default {
     },
     _initBgImg() {
       const parentNode = this.$refs["img-wrapper"];
-      // parentNode.style.backgroundImage = `url(${this.artist.picUrl})`;
+      parentNode.style.backgroundImage = `url(${this.artist.picUrl})`;
       // var bgColor = getComputedStyle(parentNode).getPropertyValue("--bgColor");
-      console.log(this.artist.picUrl);
+      // console.log(this.artist.picUrl);
       // parentNode.style.setProperty("--bgColor", `url(${this.artist.picUrl})`);
       this.imgWrapperHeight = this.$refs["img-wrapper"].offsetHeight;
     },
@@ -204,8 +204,8 @@ export default {
   overflow: hidden;
   background: $background-color;
   .img-wrapper {
-    --bgColor: url(https://p1.music.126.net/nILBk4DaE3yV__25uq-5GQ==/18641120139241412.jpg);
-    background: var(--bgColor);
+    /* --bgColor: url(https://p1.music.126.net/nILBk4DaE3yV__25uq-5GQ==/18641120139241412.jpg);
+    background: var(--bgColor); */
 
     position: relative;
     width: 100%;
