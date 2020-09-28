@@ -37,6 +37,10 @@ export default {
     getPrivateMsg(10).then(res => {
       console.log(res);
     });
+    console.log(
+      `腾讯云已完成部署，传送门：
+      http://81.69.9.242:8888/#/recommend`
+    );
   },
   computed: {
     ...mapState("user", {
