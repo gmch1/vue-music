@@ -135,12 +135,23 @@ export const touchmove = (e, start, cb, status, flag) => {
   }
 };
 
+// 清除cookie，用户cookie存在，但是没有uid，为了显示正常，所以清除当前cookie
+export const clearCookie = () => {
+  let express = new Date();
+  express.setTime(express.getTime() - 1000);
+  document.cookie = `MUSIC_U='clearCookie';path=/;expires=${express.toGMTString()}`;
+};
+
 // 获取用户信息，并发起请求获取数据
 export const getUserInfo = (cb, uid) => {
   try {
     uid = uid ? uid : localStorage.getItem("uid");
     if (uid) {
       cb(uid);
+    } else {
+      clearCookie();
+
+      console.log(document.cookie);
     }
   } catch (e) {
     console.log(e);

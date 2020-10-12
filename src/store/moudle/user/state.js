@@ -1,7 +1,8 @@
 const state = {
   // album moudle
   user: {},
-  showOptionState: false
+  showOptionState: false,
+  uid: ""
 };
 
 export default state;

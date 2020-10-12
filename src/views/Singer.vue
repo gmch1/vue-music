@@ -2,8 +2,10 @@
   <transition appear name="bounce" v-if="showStatus">
     <div class="singer-wrapper">
       <div ref="header">
-        <base-header :title="artist.name" @handleClickRouter="handleClick">
-        </base-header>
+        <base-header
+          :title="artist.name"
+          @handleClickRouter="handleClick"
+        ></base-header>
       </div>
       <div class="img-wrapper" ref="img-wrapper">
         <div class="filter"></div>
@@ -46,6 +48,7 @@ const OFFSET = 5;
 
 export default {
   name: "singer",
+
   components: {
     BaseHeader,
     SongList,
@@ -57,6 +60,15 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  data() {
+    return {
+      listenScroll: true,
+      imgWrapperHeight: null,
+      showBackground: true,
+      // 设置这个是为了不进行节流，同时实时触发事件，避免缓慢滑动导致header未及时更新
+      probeType: 3
+    };
   },
   computed: {
     ...mapState("singer", {
@@ -72,7 +84,6 @@ export default {
       window.history.go(-1);
     },
     musicAnimation(x, y) {
-      // console.log(x, y);
       this.$refs.musicNoteRef.startAnimation(x, y);
     },
     handleScroll(pos) {
@@ -124,12 +135,13 @@ export default {
     _initData() {
       const id = this.$route.params.id;
       this.getSIngerInfo(id);
-      // console.log(this.artist);
     },
     _initBgImg() {
-      // 不知道vue有没有stylecomponent那样的插件,能够将js变量传给css
       const parentNode = this.$refs["img-wrapper"];
       parentNode.style.backgroundImage = `url(${this.artist.picUrl})`;
+      // var bgColor = getComputedStyle(parentNode).getPropertyValue("--bgColor");
+      // console.log(this.artist.picUrl);
+      // parentNode.style.setProperty("--bgColor", `url(${this.artist.picUrl})`);
       this.imgWrapperHeight = this.$refs["img-wrapper"].offsetHeight;
     },
     _initSongListHeight() {
@@ -139,17 +151,10 @@ export default {
       this.$refs.myscroll.refresh();
     }
   },
-  data() {
-    return {
-      listenScroll: true,
-      imgWrapperHeight: null,
-      showBackground: true,
-      // 设置这个是为了不进行节流，同时实时触发事件，避免缓慢滑动导致header未及时更新
-      probeType: 3
-    };
-  },
+
   mounted() {
     this._initData();
+
     this._initBgImg();
     this._initSongListHeight();
   }
@@ -186,6 +191,7 @@ export default {
     transform: translate3d(100%, 100%, 0);
   }
 }
+
 .singer-wrapper {
   position: fixed;
   top: 0;
@@ -198,12 +204,16 @@ export default {
   overflow: hidden;
   background: $background-color;
   .img-wrapper {
+    /* --bgColor: url(https://p1.music.126.net/nILBk4DaE3yV__25uq-5GQ==/18641120139241412.jpg);
+    background: var(--bgColor); */
+
     position: relative;
     width: 100%;
     height: 0;
     padding-top: 75%;
     transform-origin: top;
     background-size: cover;
+
     .filter {
       position: absolute;
       top: 0;
@@ -259,7 +269,6 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
-    /* height: 100%; */
     .song-scroll {
       overflow: hidden;
       height: 100%;

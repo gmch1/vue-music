@@ -86,3 +86,24 @@ export const getNotices = () => {
 export const getPrivateMsg = (count = 10) => {
   return axiosInstance.get(`/msg/private?limit=${count}`);
 };
+
+export const reqDailySignin = () => {
+  return axiosInstance.post(`/daily_signin`);
+};
+
+// 获取用户信息，歌单，收藏，mv，dj数量
+export const getUserSubCount = () => {
+  return axiosInstance.get(`/user/subcount`);
+};
+
+// 获取用户关注列表
+export const getUserFollows = uid => {
+  return axiosInstance.get(`/user/follows?uid=${uid}`);
+};
+
+// 获取用户粉丝列表
+export const getUserFolloweds = (uid, limit = 30, lasttime) => {
+  return axiosInstance.get(
+    `/user/followeds?uid=${uid}&limit=${limit}&time=${lasttime}`
+  );
+};

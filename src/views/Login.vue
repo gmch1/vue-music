@@ -40,7 +40,6 @@ export default {
     },
     enterPass(val) {
       this.password = val;
-      console.log(this.phone, this.password);
       if (this.phone && this.password) {
         userLogin(this.phone, this.password).then(res => {
           // 设置cookie，通过用户的id来更新store，从而获取用户的信息

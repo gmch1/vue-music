@@ -8,11 +8,11 @@
         </div>
       </div>
       <div class="user-header" v-if="user.code">
-        <div class="user">
+        <div class="user" @click="handleRouterChange">
           <img width="40" height="40" :src="user.profile.avatarUrl" alt />
           <div class="username">{{ user.profile.nickname }}</div>
         </div>
-        <div class="daily-signin">
+        <div class="daily-signin" @click="dailySignin">
           <span class="iconfont">&#xe60a;</span>
           <span>签到</span>
         </div>
@@ -59,6 +59,9 @@
 </template>
 
 <script>
+import { reqDailySignin } from "../../api/request";
+import { mapState } from "vuex";
+
 export default {
   props: {
     user: {
@@ -66,10 +69,29 @@ export default {
       default: () => {}
     }
   },
+  computed: {
+    ...mapState("user", { uid: state => state.uid })
+  },
   methods: {
     handleLogin() {
       this.$emit("close");
       this.$router.push("user");
+    },
+    handleRouterChange() {
+      // 关闭掉侧边栏
+      this.$emit("close");
+      this.$router.push(`/userspace/${this.uid}`);
+    },
+    dailySignin() {
+      reqDailySignin().then(res => {
+        const { code } = res;
+        // 这部分逻辑由于请求缓存，所以不正常，忽略即可
+        if (code === 200) {
+          console.log("签到成功");
+        } else {
+          console.log("重复签到");
+        }
+      });
     }
   }
 };

@@ -5,6 +5,7 @@
     <div class="marque-wrapper" v-if="isMarque">
       <h1 ref="text">{{ title }}</h1>
     </div>
+    <i class="iconfont back" @click="handleClickShare">&#xe631;</i>
   </div>
 </template>
 
@@ -37,6 +38,9 @@ export default {
     handleClickRouter() {
       this.$emit("handleClickRouter");
     },
+    handleClickShare() {
+      this.$emit("handleClickShare");
+    },
     _initMove() {
       // 需要获取最新dom
       if (this.inter) clearInterval(this.inter);
@@ -61,16 +65,19 @@ export default {
 
 .base-header-wrapper {
   position: fixed;
-  padding: 5px 10px;
-  padding-top: 0;
+  left: 0;
+  right: 0;
+  padding: 0 10px;
   height: 40px;
-  width: 100%;
+  line-height: 40px;
+  /* width: 100%; */
   z-index: 100;
   display: flex;
+  justify-content: space-between;
   line-height: 40px;
   color: $font-color-light;
   .back {
-    margin-right: 5px;
+    /* margin-right: 5px; */
     font-size: 20px;
     width: 20px;
   }
@@ -79,7 +86,7 @@ export default {
     font-weight: 700;
   }
   .marque-wrapper {
-    width: 100%;
+    flex: 1;
     overflow: hidden;
     position: relative;
     height: 32px;

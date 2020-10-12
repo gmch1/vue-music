@@ -30,7 +30,7 @@
             <img
               :class="playing ? 'image play' : 'image pause'"
               :src="song.al.picUrl + '?param=400x400'"
-              alt=""
+              alt
             />
           </div>
         </div>
@@ -49,7 +49,7 @@
         </div>
         <div class="operator">
           <div class="icon i-left" @click="$emit('handle-changemode')">
-            <i class="iconfont" v-html="playmodeIcon()"> </i>
+            <i class="iconfont" v-html="playmodeIcon()"></i>
           </div>
           <div class="icon i-left" @click="$emit('handle-prev')">
             <i class="iconfont">&#xe6e1;</i>
@@ -65,6 +65,7 @@
           </div>
         </div>
       </div>
+      <music-lyric></music-lyric>
     </div>
   </transition>
 </template>
@@ -75,12 +76,19 @@ import animations from "create-keyframe-animation";
 const transform = prefixStyle("transform");
 import ProgressBar from "../../baseUI/progress-bar/progress-bar";
 import { playMode } from "../../api/config";
+import MusicLyric from "../../baseUI/music-lyric/music-lyric";
+
 export default {
   computed: {},
   components: {
-    ProgressBar
+    ProgressBar,
+    MusicLyric
   },
   props: {
+    lines: {
+      type: Array,
+      default: () => []
+    },
     song: {
       type: Object,
       default: () => {
@@ -112,7 +120,9 @@ export default {
       default: 0
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.lines);
+  },
   methods: {
     playmodeIcon() {
       let content;
