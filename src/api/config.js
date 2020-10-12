@@ -1,7 +1,6 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
-// export const baseUrl = "http://204.44.94.217:3333";
-export const baseUrl = "http://192.168.1.132:3000";
+export const baseUrl = "http://81.69.9.242:3333";
 // export const baseUrl = "http://localhost:3000";
 
 const axiosInstance = axios.create({
