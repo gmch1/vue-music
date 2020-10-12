@@ -146,10 +146,10 @@ export default {
     _initData() {
       const id = this.$route.params.id;
       if (id === this.currentAlbum.id) {
-        // this.showStatus = true;
+        this.showStatus = true;
       } else {
         this.getAlbumList(id);
-        // this.showStatus = true;
+        this.showStatus = true;
       }
     }
   },
