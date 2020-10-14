@@ -1,16 +1,15 @@
 <template>
   <div class="app-wrapper">
-    <my-home v-if="showpage"></my-home>
-    <div class="img-wrapper" v-if="!showpage">
-      <h2>请使用手机扫码打开，或开启开发者选项，切换至手机预览</h2>
+    <!-- <my-home v-if="showpage"></my-home> -->
+    <div class="img-wrapper">
+      <h2>当前网站已迁移，请进入新链接访问</h2>
+      <a class="link" href="http://81.69.9.242:8888/#/recommend">传送门</a>
       <img class="img-phone" src="./assets/image/use_phone.png" alt="" />
     </div>
   </div>
 </template>
 
 <script>
-import MyHome from "./views/Home";
-
 export default {
   computed: {
     showpage() {
@@ -21,19 +20,22 @@ export default {
       console.log(navigator.userAgent);
       return flag;
     }
-  },
-  components: {
-    MyHome
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .img-wrapper {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  .link {
+    margin: 10px;
+    color: #000;
+    font-size: 22px;
+  }
 }
 .img-phone {
 }
