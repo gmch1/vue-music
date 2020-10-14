@@ -151,7 +151,7 @@ export const getUserInfo = (cb, uid) => {
     } else {
       clearCookie();
 
-      console.log(document.cookie);
+      // console.log(document.cookie);
     }
   } catch (e) {
     console.log(e);

@@ -17,7 +17,7 @@ import MyOptions from "../components/my-options/my-options";
 import { touchmove, getUserInfo } from "../api/utils";
 import { mapActions, mapState } from "vuex";
 
-import { getPrivateMsg } from "../api/request";
+// import { getPrivateMsg } from "../api/request";
 export default {
   components: {
     MyHeader,
@@ -33,9 +33,9 @@ export default {
   },
   mounted() {
     getUserInfo(this.userLoginInfo);
-    getPrivateMsg(10).then(res => {
-      console.log(res);
-    });
+    // getPrivateMsg(10).then(res => {
+    //   // console.log(res);
+    // });
   },
   computed: {
     ...mapState("user", {
