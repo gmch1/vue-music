@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .img-wrapper {
-  /* height: 100vh; */
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
